@@ -1,5 +1,8 @@
-package fr.lanfix.randomitemchallenge;
+package fr.lanfix.randomitemchallenge.game;
 
+import fr.lanfix.randomitemchallenge.Main;
+import fr.lanfix.randomitemchallenge.ScoreboardManager;
+import fr.lanfix.randomitemchallenge.Tracker;
 import fr.lanfix.randomitemchallenge.utils.WorldUtils;
 import org.bukkit.*;
 import org.bukkit.entity.Player;
@@ -250,4 +253,9 @@ public class Game {
     public int getHours() {
         return hours;
     }
+
+    public List<Player> getPlayers() {
+        return this.players;
+    }
+
 }
