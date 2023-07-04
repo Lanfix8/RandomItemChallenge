@@ -128,7 +128,7 @@ public class Game {
         Bukkit.broadcastMessage(ChatColor.BLUE + "End of the game !\n" +
                 "The game lasted $TIMESINCESTART.".replace("$TIMESINCESTART", this.getTimeSinceStart())
         );
-        Bukkit.broadcastMessage(ChatColor.BLUE + "" + ChatColor.UNDERLINE + "Leaderboard :" + this.leaderboard + ChatColor.RESET);
+        Bukkit.broadcastMessage(ChatColor.BLUE + String.valueOf(ChatColor.UNDERLINE) + "Leaderboard :" + this.leaderboard + ChatColor.RESET);
     }
 
     private void newGameSecond() {

@@ -14,7 +14,7 @@ import org.bukkit.event.player.PlayerQuitEvent;
 
 public class GameEvents implements Listener {
 
-    private GameManager gameManager;
+    private final GameManager gameManager;
 
     public GameEvents(GameManager gameManager) {
         this.gameManager = gameManager;
