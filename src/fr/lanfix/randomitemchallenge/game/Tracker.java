@@ -1,4 +1,4 @@
-package fr.lanfix.randomitemchallenge;
+package fr.lanfix.randomitemchallenge.game;
 
 import org.bukkit.Location;
 import org.bukkit.Material;
@@ -43,12 +43,17 @@ public class Tracker {
             // TODO Only update compass with the right name
             updateCompass(item, location);
         } else {
-            int firstEmptySlot = inv.firstEmpty();
             ItemStack item = getCompass(location, name);
-            if (firstEmptySlot == -1) {
-                player.getWorld().dropItem(player.getLocation(), item);
+            if (inv.getItem(8) == null) {
+                // put compass in last slot of the hotbar if available
+                inv.setItem(8, item);
             } else {
-                inv.setItem(firstEmptySlot, item);
+                int firstEmptySlot = inv.firstEmpty();
+                if (firstEmptySlot == -1) {
+                    player.getWorld().dropItem(player.getLocation(), item);
+                } else {
+                    inv.setItem(firstEmptySlot, item);
+                }
             }
         }
     }

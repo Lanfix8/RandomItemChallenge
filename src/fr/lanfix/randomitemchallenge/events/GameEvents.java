@@ -2,6 +2,7 @@ package fr.lanfix.randomitemchallenge.events;
 
 import fr.lanfix.randomitemchallenge.game.Game;
 import fr.lanfix.randomitemchallenge.game.GameManager;
+import fr.lanfix.randomitemchallenge.world.WorldManager;
 import org.bukkit.GameMode;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
@@ -11,6 +12,7 @@ import org.bukkit.event.entity.EntityDeathEvent;
 import org.bukkit.event.entity.FoodLevelChangeEvent;
 import org.bukkit.event.player.PlayerKickEvent;
 import org.bukkit.event.player.PlayerQuitEvent;
+import org.bukkit.event.world.PortalCreateEvent;
 
 public class GameEvents implements Listener {
 
@@ -25,20 +27,14 @@ public class GameEvents implements Listener {
     public void onLoseHunger(FoodLevelChangeEvent event) {
         Game game = gameManager.getGameWithPlayer((Player) event.getEntity());
         if (game != null && game.isRunning()) {
-            event.getEntity().setFoodLevel(20); // FIXME Is this calling another FoodLevelChangeEvent ?
-            event.setCancelled(true);
+            event.setFoodLevel(20);
         }
     }
 
+    // Disallow portals
     @EventHandler
-    public void onFight(EntityDamageByEntityEvent event) {
-        if (!(event.getDamager() instanceof Player && event.getEntity() instanceof Player)) return;
-        Game game = gameManager.getGameWithPlayer((Player) event.getEntity());
-        if (game.isRunning()) {
-            if (game.getHours() == 2) {
-                event.setCancelled(true);
-            }
-        }
+    public void onPortalCreate(PortalCreateEvent event) {
+        if (WorldManager.getWorldManager().isEventInGameWorld(event)) event.setCancelled(true);
     }
 
     @EventHandler

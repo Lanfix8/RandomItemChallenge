@@ -1,4 +1,4 @@
-package fr.lanfix.randomitemchallenge;
+package fr.lanfix.randomitemchallenge.scoreboard;
 
 import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
