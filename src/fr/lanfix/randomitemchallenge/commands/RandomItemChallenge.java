@@ -1,32 +1,28 @@
 package fr.lanfix.randomitemchallenge.commands;
 
 import fr.lanfix.randomitemchallenge.game.Game;
-import fr.lanfix.randomitemchallenge.game.GameManager;
 import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandExecutor;
 import org.bukkit.command.CommandSender;
-import org.bukkit.entity.Player;
 
 public class RandomItemChallenge implements CommandExecutor {
 
-    private final GameManager gameManager;
+    private final Game game;
 
-    public RandomItemChallenge(GameManager gameManager) {
-        this.gameManager = gameManager;
+    public RandomItemChallenge(Game game) {
+        this.game = game;
     }
 
     @Override
     public boolean onCommand(CommandSender sender, Command cmd, String msg, String[] args) {
-        if (sender instanceof Player player) {
-            Game game = gameManager.getGameWithPlayer(player);
-            if (game != null && game.isRunning()) {
-                Bukkit.broadcastMessage(ChatColor.RED + "Forced stop of the Random Item Challenge");
-                game.stop();
-            }
+        if (game.isRunning()) {
+            Bukkit.broadcastMessage(ChatColor.RED + "Forced stop of the Random Item Challenge");
+            game.stop();
+        } else {
+            game.start();
         }
-        gameManager.newGame().start();
         return true;
     }
 }

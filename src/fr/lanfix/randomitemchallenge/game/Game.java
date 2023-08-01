@@ -86,7 +86,7 @@ public class Game {
         spectators.clear();
         this.running = false;
         Bukkit.broadcastMessage(ChatColor.BLUE + "End of the game !\n" +
-                "The game lasted $TIMESINCESTART.".replace("$TIMESINCESTART", this.getTimeSinceStart())
+                "The game lasted %s.".formatted(this.getTimeSinceStart())
         );
         Bukkit.broadcastMessage(ChatColor.BLUE + String.valueOf(ChatColor.UNDERLINE) + "Leaderboard :" + this.leaderboard + ChatColor.RESET);
     }
@@ -108,9 +108,8 @@ public class Game {
                 if (this.hours == -1) { // when time runs out
                     Bukkit.broadcastMessage(ChatColor.RED + "Time has run out !\nRandom Item Challenge is over.");
                     for (Player player : this.players) {
-                        this.leaderboard = "\n" + ChatColor.GOLD + "#1) $PLAYER: Still alive"
-                                .replace("$PLAYER", player.getName())
-                                + this.leaderboard;
+                        this.leaderboard = "\n%s#1) %s: Still alive%s"
+                                .formatted(ChatColor.GOLD, player.getName(), this.leaderboard);
                     }
                     this.stop();
                     return;
@@ -196,7 +195,7 @@ public class Game {
                         .replace("$WINNER", this.players.get(0).getName())
                                 + this.leaderboard;
                 this.stop();
-            } else if (this.players.size() < 1) {
+            } else if (this.players.isEmpty()) {
                 Bukkit.broadcastMessage(ChatColor.RED + "Something wierd happened, are you damn playing alone ?");
                 this.stop();
             }
@@ -211,14 +210,6 @@ public class Game {
 
     public boolean isRunning() {
         return running;
-    }
-
-    public int getHours() {
-        return hours;
-    }
-
-    public List<Player> getPlayers() {
-        return this.players;
     }
 
 }

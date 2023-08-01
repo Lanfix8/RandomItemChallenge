@@ -9,7 +9,7 @@ import org.bukkit.inventory.meta.CompassMeta;
 
 public class Tracker {
 
-    public static boolean updateCompass(ItemStack item, Location location) {
+    public static void updateCompass(ItemStack item, Location location) {
         // this method updates the given item
         if (item.getType().equals(Material.COMPASS)) {
             CompassMeta meta = (CompassMeta) item.getItemMeta();
@@ -17,9 +17,7 @@ public class Tracker {
             meta.setLodestone(location);
             meta.setLodestoneTracked(false);
             item.setItemMeta(meta);
-            return true;
         }
-        return false;
     }
 
     public static ItemStack getCompass(Location location, String name) {

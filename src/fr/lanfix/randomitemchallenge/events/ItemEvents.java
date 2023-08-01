@@ -19,6 +19,7 @@ public class ItemEvents implements Listener {
         Item item = event.getItemDrop();
         ItemStack itemStack = item.getItemStack();
         ItemMeta itemMeta = itemStack.getItemMeta();
+        assert itemMeta != null;
         itemMeta.setLore(Collections.singletonList(event.getPlayer().getName()));
         itemStack.setItemMeta(itemMeta);
         item.setItemStack(itemStack);
@@ -32,7 +33,7 @@ public class ItemEvents implements Listener {
             ItemMeta itemMeta = itemStack.getItemMeta();
             assert itemMeta != null;
             if (itemMeta.hasLore()) {
-                if (itemMeta.getLore().get(0).contains(((Player) event.getEntity()).getName())) {
+                if (itemMeta.getLore().get(0).contains((event.getEntity()).getName())) {
                     itemMeta.setLore(null);
                     itemStack.setItemMeta(itemMeta);
                     item.setItemStack(itemStack);

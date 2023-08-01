@@ -3,7 +3,6 @@ package fr.lanfix.randomitemchallenge.world;
 import fr.lanfix.randomitemchallenge.Main;
 import org.bukkit.*;
 import org.bukkit.event.world.WorldEvent;
-import org.bukkit.scheduler.BukkitRunnable;
 
 import java.util.ArrayList;
 import java.util.List;
