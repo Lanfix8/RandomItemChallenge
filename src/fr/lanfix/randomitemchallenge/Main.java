@@ -14,8 +14,8 @@ public class Main extends JavaPlugin {
 
     @Override
     public void onEnable() {
-        this.game = new Game(this);
         WorldManager.createWorldManager(getConfig().getStringList("biomes-blacklist"), getConfig().getInt("border", 500));
+        this.game = new Game(this);
         // save default config
         this.saveDefaultConfig();
         // Register events
@@ -41,6 +41,7 @@ public class Main extends JavaPlugin {
     The compass is now on the last slot of the hotbar instead of the first
     Game now runs on a separate world
     Disabled dimensions (would be a mess to control, and it does not fit the gameplay)
+    Implemented Chunky for a small chunk pre-generation
      */
 
 }

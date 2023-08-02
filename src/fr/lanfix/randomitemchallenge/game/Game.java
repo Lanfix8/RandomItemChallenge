@@ -45,7 +45,7 @@ public class Game {
 
     public void start() {
         Bukkit.getLogger().log(Level.INFO, "Starting Random Item Challenge");
-        Location spawnLocation = worldManager.getSpawnLocation(main);
+        Location spawnLocation = worldManager.getSpawnLocation();
         players.clear();
         players.addAll(Bukkit.getOnlinePlayers());
         for (Player player: players) {
@@ -89,6 +89,7 @@ public class Game {
                 "The game lasted %s.".formatted(this.getTimeSinceStart())
         );
         Bukkit.broadcastMessage(ChatColor.BLUE + String.valueOf(ChatColor.UNDERLINE) + "Leaderboard :" + this.leaderboard + ChatColor.RESET);
+        worldManager.loadNextLocation();
     }
 
     private void newGameSecond() {

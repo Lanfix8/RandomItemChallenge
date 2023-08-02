@@ -1,8 +1,8 @@
 package fr.lanfix.randomitemchallenge.world;
 
-import fr.lanfix.randomitemchallenge.Main;
 import org.bukkit.*;
 import org.bukkit.event.world.WorldEvent;
+import org.popcraft.chunky.api.ChunkyAPI;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -21,7 +21,7 @@ public class WorldManager {
 
     private WorldManager(List<String> biomesBlacklist, int border) {
         this.biomesBlacklist = biomesBlacklist;
-        World world = Bukkit.getWorld("world");
+        World world = Bukkit.getWorld("RandomItemChallenge_world");
         if (world == null) world = createWorld();
         world.getWorldBorder().setSize(border);
         world.setTime(0);
@@ -47,14 +47,14 @@ public class WorldManager {
         return worldCreator.createWorld();
     }
 
-    public Location getSpawnLocation(Main main) {
+    public Location getSpawnLocation() {
         Location spawnLocation = this.nextLocation;
         world.getWorldBorder().setCenter(spawnLocation.getX(), spawnLocation.getZ());
         world.setSpawnLocation(spawnLocation);
         return spawnLocation;
     }
 
-    private void loadNextLocation() {
+    public void loadNextLocation() {
         int tries = 1;
         boolean found = false;
         int x = 0;
@@ -73,7 +73,20 @@ public class WorldManager {
         world.setBlockData(x, -64, z, world.getBlockData(x, -50, z));
         Bukkit.getLogger().log(Level.INFO, "Found next starting location in %TRIES tries.".replace("%TRIES", String.valueOf(tries)));
         this.nextLocation = getSpawnHeight(x, z);
-        // TODO Preload chunks
+        preloadNextLocation();
+    }
+
+    private void preloadNextLocation() {
+        ChunkyAPI api = Bukkit.getServicesManager().load(ChunkyAPI.class);
+        if (api == null) return;
+        boolean hasStarted = api.startTask(world.getName(), "square",
+                nextLocation.getX(), nextLocation.getZ(), 20, 20, "concentric");
+        if (hasStarted) Bukkit.getLogger().info("Next Random Item Challenge game area started pre-generating its chunks.");
+        api.onGenerationComplete(generationCompleteEvent -> {
+            if (generationCompleteEvent.world().equals(world.getName())) {
+                Bukkit.getLogger().info("Next Random Item Challenge area pre-generated successfully !");
+            }
+        });
     }
 
     public void startGracePeriod() {
