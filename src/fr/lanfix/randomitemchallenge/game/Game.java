@@ -157,7 +157,7 @@ public class Game {
         for (Player player: players) {
             for (int i = 0; i < main.getConfig().getInt("drop-count", 1); i++) {
                 // find the location and choose item
-                Location spawnLocation = player.getLocation();
+                Location location = player.getLocation();
                 Material material = choices.get(this.random.nextInt(choices.size()));
                 ItemStack item = new ItemStack(material, material.getMaxStackSize());
                 // set player name in lore to set property so others don't pick up his items
@@ -167,7 +167,7 @@ public class Game {
                 item.setItemMeta(itemMeta);
                 // drop the items
                 for (int j = 0; j < main.getConfig().getInt("stacks", 9); j++) {
-                    spawnLocation.getWorld().dropItem(spawnLocation, item);
+                    player.getWorld().dropItem(location, item);
                 }
             }
         }
