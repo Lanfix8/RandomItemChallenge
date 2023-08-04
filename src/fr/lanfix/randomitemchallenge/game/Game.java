@@ -89,7 +89,12 @@ public class Game {
                 "The game lasted %s.".formatted(this.getTimeSinceStart())
         );
         Bukkit.broadcastMessage(ChatColor.BLUE + String.valueOf(ChatColor.UNDERLINE) + "Leaderboard :" + this.leaderboard + ChatColor.RESET);
-        worldManager.loadNextLocation();
+        new BukkitRunnable() {
+            @Override
+            public void run() {
+                worldManager.loadNextLocation();
+            }
+        }.runTaskLater(main, 5); // TODO Check if it works
     }
 
     private void newGameSecond() {

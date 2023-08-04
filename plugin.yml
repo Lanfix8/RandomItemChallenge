@@ -1,6 +1,6 @@
 name: RandomItemChallenge
 author: Lanfix
-version: 1.2
+version: 1.2.1
 main: fr.lanfix.randomitemchallenge.Main
 api-version: 1.19
 commands:

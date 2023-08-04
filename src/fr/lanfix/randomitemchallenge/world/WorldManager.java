@@ -92,11 +92,13 @@ public class WorldManager {
     public void startGracePeriod() {
         world.setGameRule(GameRule.FALL_DAMAGE, false);
         world.setPVP(false);
+        world.setTime(0);
     }
 
     public void endGracePeriod() {
         world.setGameRule(GameRule.FALL_DAMAGE, true);
         world.setPVP(true);
+        world.setTime(0);
     }
 
     private Location getSpawnHeight(int x, int z) {

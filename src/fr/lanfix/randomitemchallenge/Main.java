@@ -34,14 +34,8 @@ public class Main extends JavaPlugin {
     }
 
     /*
-    Fixed another bug with the scoreboard
-    Fixed a potential bug with hunger
-    Fixed a bug at the end of a game
-    Did many internal optimisations
-    The compass is now on the last slot of the hotbar instead of the first
-    Game now runs on a separate world
-    Disabled dimensions (would be a mess to control, and it does not fit the gameplay)
-    Implemented Chunky for a small chunk pre-generation
+    Bugfix -> Time is now set to 0 at the start of a new game
+    Fixed a freeze when finishing a game
      */
 
 }
