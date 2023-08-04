@@ -94,7 +94,7 @@ public class Game {
             public void run() {
                 worldManager.loadNextLocation();
             }
-        }.runTaskLater(main, 5); // TODO Check if it works
+        }.runTaskLater(main, 5);
     }
 
     private void newGameSecond() {
