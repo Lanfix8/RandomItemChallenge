@@ -1,3 +1,5 @@
+# If the plugin will create a separate world for the games (otherwise uses default world)
+use-default-world: true
 # biomes where the game is disabled (oceans by default)
 biomes-blacklist:
   - OCEAN

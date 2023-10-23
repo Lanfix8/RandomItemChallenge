@@ -14,10 +14,13 @@ public class Main extends JavaPlugin {
 
     @Override
     public void onEnable() {
-        WorldManager.createWorldManager(getConfig().getStringList("biomes-blacklist"), getConfig().getInt("border", 500));
-        this.game = new Game(this);
         // save default config
         this.saveDefaultConfig();
+        // load worldmanager and game objects
+        WorldManager.createWorldManager(getConfig().getStringList("biomes-blacklist"),
+                getConfig().getInt("border", 500),
+                getConfig().getBoolean("use-default-world", true));
+        this.game = new Game(this);
         // Register events
         PluginManager pluginManager = getServer().getPluginManager();
         pluginManager.registerEvents(new GameEvents(this.game), this);
@@ -34,8 +37,7 @@ public class Main extends JavaPlugin {
     }
 
     /*
-    Bugfix -> Time is now set to 0 at the start of a new game
-    Fixed a freeze when finishing a game
+
      */
 
 }

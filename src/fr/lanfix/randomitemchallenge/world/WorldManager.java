@@ -19,9 +19,9 @@ public class WorldManager {
 
     private Location nextLocation;
 
-    private WorldManager(List<String> biomesBlacklist, int border) {
+    private WorldManager(List<String> biomesBlacklist, int border, boolean useSeparateWorld) {
         this.biomesBlacklist = biomesBlacklist;
-        World world = Bukkit.getWorld("RandomItemChallenge_world");
+        World world = useSeparateWorld ? Bukkit.getWorld("RandomItemChallenge_world") : Bukkit.getWorld("world");
         if (world == null) world = createWorld();
         world.getWorldBorder().setSize(border);
         world.setTime(0);
@@ -33,12 +33,12 @@ public class WorldManager {
         loadNextLocation();
     }
 
-    public static void createWorldManager(List<String> biomesBlacklist, int border) {
-        worldManager = new WorldManager(biomesBlacklist, border);
+    public static void createWorldManager(List<String> biomesBlacklist, int border, boolean useSeparateWorld) {
+        worldManager = new WorldManager(biomesBlacklist, border, useSeparateWorld);
     }
 
     public static WorldManager getWorldManager() {
-        if (worldManager == null) worldManager = new WorldManager(new ArrayList<>(), 500);
+        if (worldManager == null) worldManager = new WorldManager(new ArrayList<>(), 500, true);
         return worldManager;
     }
 
@@ -51,6 +51,9 @@ public class WorldManager {
         Location spawnLocation = this.nextLocation;
         world.getWorldBorder().setCenter(spawnLocation.getX(), spawnLocation.getZ());
         world.setSpawnLocation(spawnLocation);
+        int x = spawnLocation.getBlockX();
+        int z = spawnLocation.getBlockZ();
+        world.setBlockData(x, -64, z, world.getBlockData(x, -50, z));
         return spawnLocation;
     }
 
@@ -62,7 +65,7 @@ public class WorldManager {
         Random random = new Random();
         while (!found) {
             if (world.getBlockAt(x, -64, z).getType().equals(Material.BEDROCK) &&
-                    !biomesBlacklist.contains(world.getBiome(x, -64, z).toString())) {
+                    !biomesBlacklist.contains(world.getBiome(x, 63, z).toString())) {
                 found = true;
             } else {
                 x = random.nextInt(tries * -5, tries * 5 + 1) * 600;
@@ -70,23 +73,27 @@ public class WorldManager {
                 tries++;
             }
         }
-        world.setBlockData(x, -64, z, world.getBlockData(x, -50, z));
         Bukkit.getLogger().log(Level.INFO, "Found next starting location in %TRIES tries.".replace("%TRIES", String.valueOf(tries)));
         this.nextLocation = getSpawnHeight(x, z);
         preloadNextLocation();
     }
 
     private void preloadNextLocation() {
-        ChunkyAPI api = Bukkit.getServicesManager().load(ChunkyAPI.class);
-        if (api == null) return;
-        boolean hasStarted = api.startTask(world.getName(), "square",
-                nextLocation.getX(), nextLocation.getZ(), 20, 20, "concentric");
-        if (hasStarted) Bukkit.getLogger().info("Next Random Item Challenge game area started pre-generating its chunks.");
-        api.onGenerationComplete(generationCompleteEvent -> {
-            if (generationCompleteEvent.world().equals(world.getName())) {
-                Bukkit.getLogger().info("Next Random Item Challenge area pre-generated successfully !");
-            }
-        });
+        if (Bukkit.getPluginManager().isPluginEnabled("Chunky")) {
+            ChunkyAPI api = Bukkit.getServicesManager().load(ChunkyAPI.class);
+            if (api == null) return;
+            boolean hasStarted = api.startTask(world.getName(), "square",
+                    nextLocation.getX(), nextLocation.getZ(), 20, 20, "concentric");
+            if (hasStarted)
+                Bukkit.getLogger().info("Next Random Item Challenge game area started pre-generating its chunks.");
+            api.onGenerationComplete(generationCompleteEvent -> {
+                if (generationCompleteEvent.world().equals(world.getName())) {
+                    Bukkit.getLogger().info("Next Random Item Challenge area pre-generated successfully !");
+                }
+            });
+        } else {
+            Bukkit.getLogger().info("Chunky plugin for area preloading is not present on the server, consequently there will be some lag...\nI suggest to install the plugin Chunky for a better experience");
+        }
     }
 
     public void startGracePeriod() {
