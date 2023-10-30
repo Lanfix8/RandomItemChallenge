@@ -24,7 +24,7 @@ public class Main extends JavaPlugin {
         // Register events
         PluginManager pluginManager = getServer().getPluginManager();
         pluginManager.registerEvents(new GameEvents(this.game), this);
-        pluginManager.registerEvents(new ItemEvents(), this);
+        pluginManager.registerEvents(new ItemEvents(game), this);
         // Register commands
         getCommand("randomitemchallenge").setExecutor(new RandomItemChallenge(this.game));
     }

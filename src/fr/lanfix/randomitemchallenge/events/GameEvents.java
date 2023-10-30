@@ -31,7 +31,7 @@ public class GameEvents implements Listener {
     // Disallow portals
     @EventHandler
     public void onPortalCreate(PortalCreateEvent event) {
-        if (WorldManager.getWorldManager().isEventInGameWorld(event)) event.setCancelled(true);
+        if (this.game.isRunning() && WorldManager.getWorldManager().isEventInGameWorld(event)) event.setCancelled(true);
     }
 
     @EventHandler

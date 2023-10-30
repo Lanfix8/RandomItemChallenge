@@ -1,5 +1,6 @@
 package fr.lanfix.randomitemchallenge.events;
 
+import fr.lanfix.randomitemchallenge.game.Game;
 import org.bukkit.entity.Item;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
@@ -13,21 +14,29 @@ import java.util.Collections;
 
 public class ItemEvents implements Listener {
 
+    private final Game game;
+
+    public ItemEvents(Game game) {
+        this.game = game;
+    }
+
     @EventHandler
     public void onDropItem(PlayerDropItemEvent event) {
-        // when player drop items set property
-        Item item = event.getItemDrop();
-        ItemStack itemStack = item.getItemStack();
-        ItemMeta itemMeta = itemStack.getItemMeta();
-        assert itemMeta != null;
-        itemMeta.setLore(Collections.singletonList(event.getPlayer().getName()));
-        itemStack.setItemMeta(itemMeta);
-        item.setItemStack(itemStack);
+        if (game.isRunning()) {
+            // when player drop items set property
+            Item item = event.getItemDrop();
+            ItemStack itemStack = item.getItemStack();
+            ItemMeta itemMeta = itemStack.getItemMeta();
+            assert itemMeta != null;
+            itemMeta.setLore(Collections.singletonList(event.getPlayer().getName()));
+            itemStack.setItemMeta(itemMeta);
+            item.setItemStack(itemStack);
+        }
     }
 
     @EventHandler
     public void onPickupItem(EntityPickupItemEvent event) {
-        if (event.getEntity() instanceof Player && event.getItem().getItemStack().hasItemMeta()) {
+        if (game.isRunning() && event.getEntity() instanceof Player && event.getItem().getItemStack().hasItemMeta()) {
             Item item = event.getItem();
             ItemStack itemStack = item.getItemStack();
             ItemMeta itemMeta = itemStack.getItemMeta();
