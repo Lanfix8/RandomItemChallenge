@@ -2,6 +2,7 @@ package fr.lanfix.randomitemchallenge.game;
 
 import fr.lanfix.randomitemchallenge.Main;
 import fr.lanfix.randomitemchallenge.scoreboard.ScoreboardManager;
+import fr.lanfix.randomitemchallenge.utils.Text;
 import fr.lanfix.randomitemchallenge.world.WorldManager;
 import org.bukkit.*;
 import org.bukkit.entity.Player;
@@ -20,6 +21,7 @@ public class Game {
 
     private final Main main;
     private final WorldManager worldManager;
+    private final Text text;
 
     private final Random random;
 
@@ -30,21 +32,27 @@ public class Game {
     private final List<Player> spectators;
     private String leaderboard;
 
+    private final int durationHours;
+    private final int durationMin;
+
     private int hours;
     private int min;
     private int sec;
 
-    public Game(Main main) {
+    public Game(Main main, Text text) {
         this.main = main;
+        this.text = text;
         this.worldManager = WorldManager.getWorldManager();
         this.random = new Random();
         this.running = false;
         this.players = new ArrayList<>();
         this.spectators = new ArrayList<>();
+        durationHours = main.getConfig().getInt("game-duration.hours", 2);
+        durationMin = main.getConfig().getInt("game-duration.minutes", 0);
     }
 
     public void start() {
-        Bukkit.getLogger().log(Level.INFO, "Starting Random Item Challenge");
+        Bukkit.getLogger().log(Level.INFO, text.getLog("start"));
         Location spawnLocation = worldManager.getSpawnLocation();
         players.clear();
         players.addAll(Bukkit.getOnlinePlayers());
@@ -59,12 +67,12 @@ public class Game {
             player.teleport(spawnLocation);
             player.getInventory().clear();
             player.getActivePotionEffects().forEach(effect -> player.removePotionEffect(effect.getType()));
-            player.sendTitle("PvP disabled for 15 seconds", null, -1, -1, -1);
-            Tracker.trackLocation(player, player.getLocation(), "Nearest Enemy");
+            player.sendTitle(text.getTitle("start"), null, -1, -1, -1);
+            Tracker.trackLocation(player, player.getLocation(), text.getItem("compass"));
             ScoreboardManager.newScoreboard(player, 2, 0, 15, this.players.size());
         }
-        this.hours = 2;
-        this.min = 0;
+        this.hours = durationHours;
+        this.min = durationMin;
         this.sec = 15;
         this.running = true;
         this.leaderboard = "";
@@ -85,8 +93,7 @@ public class Game {
         spectators.forEach(player -> player.getScoreboard().clearSlot(DisplaySlot.SIDEBAR));
         spectators.clear();
         this.running = false;
-        Bukkit.broadcastMessage(ChatColor.BLUE + "End of the game !\n" +
-                "The game lasted %s.".formatted(this.getTimeSinceStart())
+        Bukkit.broadcastMessage(text.getBroadcast("end").replace("$TIME", this.getTimeSinceStart())
         );
         Bukkit.broadcastMessage(ChatColor.BLUE + String.valueOf(ChatColor.UNDERLINE) + "Leaderboard :" + this.leaderboard + ChatColor.RESET);
         new BukkitRunnable() {
@@ -108,11 +115,8 @@ public class Game {
             if (this.min == -1) {
                 this.min += 60;
                 this.hours--;
-                if (this.hours == 1) { // when grace period is over
-                    this.worldManager.endGracePeriod();
-                }
                 if (this.hours == -1) { // when time runs out
-                    Bukkit.broadcastMessage(ChatColor.RED + "Time has run out !\nRandom Item Challenge is over.");
+                    Bukkit.broadcastMessage(text.getBroadcast("end-by-time"));
                     for (Player player : this.players) {
                         this.leaderboard = "\n%s#1) %s: Still alive%s"
                                 .formatted(ChatColor.GOLD, player.getName(), this.leaderboard);
@@ -120,6 +124,10 @@ public class Game {
                     this.stop();
                     return;
                 }
+            }
+            if ((this.hours == durationHours - 1 && this.durationMin == 0) ||
+                    (this.hours == durationHours && this.min == durationMin - 1)) { // when grace period is over
+                this.worldManager.endGracePeriod();
             }
         }
         // send scoreboard to everybody
@@ -136,7 +144,7 @@ public class Game {
                     nearestEnemy = enemy;
                 }
             }
-            Tracker.trackLocation(player, nearestEnemy.getLocation(), "Nearest Enemy");
+            Tracker.trackLocation(player, nearestEnemy.getLocation(), text.getItem("compass"));
         }
         for (Player spectator: this.spectators) {
             ScoreboardManager.updateScoreboard(spectator, this.hours, this.min, this.sec, this.players.size());
@@ -144,11 +152,11 @@ public class Game {
     }
 
     public void giveItems() {
-        Bukkit.broadcastMessage(ChatColor.GREEN + "ITEM DROP !!");
+        Bukkit.broadcastMessage(text.getBroadcast("item-drop"));
         List<Material> choices = switch(main.getConfig().getString("itemChooseMode", "custom")) {
             case "custom" -> {
                 List<Material> r = new ArrayList<>();
-                main.getConfig().getStringList("items").forEach(string -> r.add(Material.valueOf(string)));
+                main.getConfig().getStringList("items").forEach(string -> r.add(Material.valueOf(string.toUpperCase())));
                 yield r;
             }
             case "allItems" -> {
@@ -181,11 +189,11 @@ public class Game {
     public void playerDeath(Player player) {
         if (this.players.contains(player)) {
             String pos = String.valueOf(this.players.size());
-            Bukkit.broadcastMessage("$PLAYER is out ! (#$POS)"
+            Bukkit.broadcastMessage(text.getBroadcast("player-out")
                     .replace("$PLAYER", player.getName())
                     .replace("$POS", pos)
             );
-            player.sendMessage(ChatColor.GREEN + "You survived $TIME !".replace("$TIME", this.getTimeSinceStart()));
+            player.sendMessage(text.getMessage("time-survived").replace("$TIME", this.getTimeSinceStart()));
             this.leaderboard = "\n" + ChatColor.GREEN + "#$POS) $PLAYER: $TIME"
                     .replace("$POS", pos)
                     .replace("$PLAYER", player.getName())
@@ -194,7 +202,7 @@ public class Game {
             this.players.remove(player);
             this.spectators.add(player);
             if (this.players.size() == 1) {
-                Bukkit.broadcastMessage(ChatColor.GOLD + "$WINNER has won !"
+                Bukkit.broadcastMessage(text.getBroadcast("winner")
                         .replace("$WINNER", this.players.get(0).getName())
                 );
                 this.leaderboard = "\n" + ChatColor.GOLD + "#1) $WINNER: Still alive"
@@ -202,7 +210,7 @@ public class Game {
                                 + this.leaderboard;
                 this.stop();
             } else if (this.players.isEmpty()) {
-                Bukkit.broadcastMessage(ChatColor.RED + "Something wierd happened, are you damn playing alone ?");
+                Bukkit.broadcastMessage(text.getBroadcast("playing-alone"));
                 this.stop();
             }
         }

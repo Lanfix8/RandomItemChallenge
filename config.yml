@@ -12,9 +12,14 @@ biomes-blacklist:
   - DEEP_LUKEWARM_OCEAN
   - DEEP_COLD_OCEAN
   - DEEP_FROZEN_OCEAN
-  -
-# size of the border
+
+# size of the border (better below 600 at the moment)
 border: 500
+
+# Game duration
+game-duration:
+  hours: 2
+  minutes: 0
 
 # number of stacks given
 stacks: 9
@@ -137,3 +142,10 @@ items:
   - SMITHING_TABLE
   - GILDED_BLACKSTONE
   - POINTED_DRIPSTONE
+  - netherite_upgrade_smithing_template
+  - cherry_sapling
+  - bamboo_planks
+  - SUSPICIOUS_SAND
+  - BRUSH
+
+config-version: 1.3 # Don't touch this
