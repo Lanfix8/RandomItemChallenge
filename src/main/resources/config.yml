@@ -1,0 +1,151 @@
+# If the plugin will create a separate world for the games (otherwise uses default world)
+use-default-world: true
+# biomes where the game is disabled (oceans by default)
+biomes-blacklist:
+  - OCEAN
+  - FROZEN_OCEAN
+  - DEEP_OCEAN
+  - WARM_OCEAN
+  - LUKEWARM_OCEAN
+  - COLD_OCEAN
+  - DEEP_WARM_OCEAN
+  - DEEP_LUKEWARM_OCEAN
+  - DEEP_COLD_OCEAN
+  - DEEP_FROZEN_OCEAN
+
+# size of the border (better below 600 at the moment)
+border: 500
+
+# Game duration
+game-duration:
+  hours: 2
+  minutes: 0
+
+# number of stacks given
+stacks: 9
+# time between the drops (minutes)
+drop-interval: 2
+# number of drops (different items)
+drop-count: 1
+
+# change the way the items are chosen
+# 'allItems' is for all the items in the game
+# 'custom' is to use the 'items' list in this file
+itemChooseMode: custom
+# list of items if 'itemChooseMode' is set to custom
+items:
+  - STONE
+  - ANDESITE
+  - GRASS_BLOCK
+  - SPRUCE_PLANKS
+  - WARPED_PLANKS
+  - RED_SAND
+  - DEEPSLATE_COAL_ORE
+  - REDSTONE_ORE
+  - ANCIENT_DEBRIS
+  - DIAMOND_BLOCK
+  - WEATHERED_CUT_COPPER
+  - BIRCH_LOG
+  - STRIPPED_CRIMSON_HYPHAE
+  - OAK_WOOD
+  - ACACIA_LEAVES
+  - SPONGE
+  - GLASS
+  - YELLOW_WOOL
+  - WITHER_ROSE
+  - TWISTING_VINES
+  - BIG_DRIPLEAF
+  - MANGROVE_SLAB
+  - MUD_BRICK_SLAB
+  - BOOKSHELF
+  - OBSIDIAN
+  - END_ROD
+  - CRAFTING_TABLE
+  - LADDER
+  - DARK_OAK_FENCE
+  - SOUL_SAND
+  - MOSSY_STONE_BRICKS
+  - LILY_PAD
+  - ENCHANTING_TABLE
+  - END_PORTAL_FRAME
+  - RED_NETHER_BRICK_WALL
+  - ANVIL
+  - QUARTZ_STAIRS
+  - CYAN_TERRACOTTA
+  - HAY_BLOCK
+  - LIME_STAINED_GLASS
+  - MAGMA_BLOCK
+  - ORANGE_SHULKER_BOX
+  - LIGHT_GRAY_GLAZED_TERRACOTTA
+  - MAGENTA_CONCRETE
+  - PINK_CONCRETE_POWDER
+  - SCAFFOLDING
+  - REDSTONE
+  - SLIME_BLOCK
+  - OBSERVER
+  - TNT
+  - JUNGLE_DOOR
+  - RAIL
+  - TNT_MINECART
+  - ELYTRA
+  - OAK_BOAT
+  - TURTLE_HELMET
+  - FLINT_AND_STEEL
+  - BOW
+  - ARROW
+  - DIAMOND
+  - LAPIS_LAZULI
+  - IRON_INGOT
+  - GOLD_INGOT
+  - WOODEN_SHOVEL
+  - STONE_HOE
+  - GOLDEN_PICKAXE
+  - IRON_HOE
+  - DIAMOND_SWORD
+  - DIAMOND_SHOVEL
+  - DIAMOND_HOE
+  - NETHERITE_PICKAXE
+  - NETHERITE_AXE
+  - LEATHER_HELMET
+  - CHAINMAIL_CHESTPLATE
+  - IRON_LEGGINGS
+  - DIAMOND_HELMET
+  - DIAMOND_LEGGINGS
+  - GOLDEN_BOOTS
+  - NETHERITE_CHESTPLATE
+  - NETHERITE_BOOTS
+  - GOLDEN_APPLE
+  - ENCHANTED_GOLDEN_APPLE
+  - BUCKET
+  - WATER_BUCKET
+  - LAVA_BUCKET
+  - PUFFERFISH_BUCKET
+  - BOOK
+  - FISHING_ROD
+  - SPYGLASS
+  - RED_BED
+  - ENDER_PEARL
+  - BLAZE_SPAWN_EGG
+  - CREEPER_SPAWN_EGG
+  - WARDEN_SPAWN_EGG
+  - EXPERIENCE_BOTTLE
+  - PLAYER_HEAD
+  - FIREWORK_ROCKET
+  - END_CRYSTAL
+  - CHORUS_FRUIT
+  - SHIELD
+  - TOTEM_OF_UNDYING
+  - TRIDENT
+  - CROSSBOW
+  - GOAT_HORN
+  - CAMPFIRE
+  - SMITHING_TABLE
+  - GILDED_BLACKSTONE
+  - POINTED_DRIPSTONE
+  - netherite_upgrade_smithing_template
+  - cherry_sapling
+  - bamboo_planks
+  - SUSPICIOUS_SAND
+  - BRUSH
+
+config-version: 1.3 # Don't touch this
