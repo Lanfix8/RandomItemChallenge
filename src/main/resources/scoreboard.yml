@@ -1,0 +1,8 @@
+# If enabled, we will use this custom scoreboard, if not, you can use a custom scoreboard with another plugin using PlaceholderAPI
+custom-scoreboard: true
+
+# PAPI is available with this scoreboard
+scoreboard:
+  - "§dTime remaining: %randomitemchallenge_time%"
+  - ""
+  - "§cPlayers remaining: %randomitemchallenge_players%"

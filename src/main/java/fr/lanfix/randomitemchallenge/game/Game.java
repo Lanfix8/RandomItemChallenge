@@ -1,6 +1,9 @@
 package fr.lanfix.randomitemchallenge.game;
 
 import fr.lanfix.randomitemchallenge.RandomItemChallenge;
+import fr.lanfix.randomitemchallenge.api.event.RandomItemChallengeStartEvent;
+import fr.lanfix.randomitemchallenge.api.event.RandomItemChallengeStopEvent;
+import fr.lanfix.randomitemchallenge.api.event.RandomItemChallengeUpdateEvent;
 import fr.lanfix.randomitemchallenge.scoreboard.ScoreboardManager;
 import fr.lanfix.randomitemchallenge.utils.Text;
 import fr.lanfix.randomitemchallenge.world.WorldManager;
@@ -22,6 +25,7 @@ public class Game {
     private final RandomItemChallenge plugin;
     private final WorldManager worldManager;
     private final Text text;
+    private final ScoreboardManager sb;
 
     private final Random random;
 
@@ -39,9 +43,10 @@ public class Game {
     private int min;
     private int sec;
 
-    public Game(RandomItemChallenge plugin, Text text) {
+    public Game(RandomItemChallenge plugin, Text text, ScoreboardManager sb) {
         this.plugin = plugin;
         this.text = text;
+        this.sb = sb;
         this.worldManager = WorldManager.getWorldManager();
         this.random = new Random();
         this.running = false;
@@ -52,6 +57,7 @@ public class Game {
     }
 
     public void start() {
+        Bukkit.getPluginManager().callEvent(new RandomItemChallengeStartEvent(this));
         Bukkit.getLogger().log(Level.INFO, text.getLog("start"));
         Location spawnLocation = worldManager.getSpawnLocation();
         players.clear();
@@ -69,7 +75,7 @@ public class Game {
             player.getActivePotionEffects().forEach(effect -> player.removePotionEffect(effect.getType()));
             player.sendTitle(text.getTitle("start"), null, -1, -1, -1);
             Tracker.trackLocation(player, player.getLocation(), text.getItem("compass"));
-            ScoreboardManager.newScoreboard(player, 2, 0, 15, this.players.size());
+            sb.newScoreboard(player);
         }
         this.hours = durationHours;
         this.min = durationMin;
@@ -87,6 +93,7 @@ public class Game {
     }
 
     public void stop() {
+        Bukkit.getPluginManager().callEvent(new RandomItemChallengeStopEvent(this));
         this.gameLoop.cancel();
         players.forEach(player -> player.getScoreboard().clearSlot(DisplaySlot.SIDEBAR));
         players.clear();
@@ -105,6 +112,7 @@ public class Game {
     }
 
     private void newGameSecond() {
+        Bukkit.getPluginManager().callEvent(new RandomItemChallengeUpdateEvent(this));
         this.sec--;
         if (this.sec == -1) {
             if (this.min % plugin.getConfig().getInt("drop-interval", 2) == 0) { // Drop items every x min
@@ -132,7 +140,7 @@ public class Game {
         }
         // send scoreboard to everybody
         for (Player player: this.players) {
-            ScoreboardManager.updateScoreboard(player, this.hours, this.min, this.sec, this.players.size());
+            sb.updateScoreboard(player);
             // update compass
             double nearestDistance = Double.POSITIVE_INFINITY;
             Player nearestEnemy = player;
@@ -147,7 +155,7 @@ public class Game {
             Tracker.trackLocation(player, nearestEnemy.getLocation(), text.getItem("compass"));
         }
         for (Player spectator: this.spectators) {
-            ScoreboardManager.updateScoreboard(spectator, this.hours, this.min, this.sec, this.players.size());
+            sb.updateScoreboard(spectator);
         }
     }
 
@@ -216,12 +224,6 @@ public class Game {
         }
     }
 
-    public String getTimeSinceStart() {
-        return "$HOURS hours and $MIN minutes."
-                .replace("$HOURS", String.valueOf(this.min == 0 ? 2 - this.hours: 1 - this.hours))
-                .replace("$MIN", String.valueOf(this.min == 0 ? 0: 60 - this.min));
-    }
-
     public boolean isRunning() {
         return running;
     }
@@ -230,16 +232,14 @@ public class Game {
         return players.size();
     }
 
-    public int getHours() {
-        return hours;
+    public String getTimeSinceStart() {
+        return "$HOURS hours and $MIN minutes."
+                .replace("$HOURS", String.valueOf(this.min == 0 ? 2 - this.hours: 1 - this.hours))
+                .replace("$MIN", String.valueOf(this.min == 0 ? 0: 60 - this.min));
     }
 
-    public int getMinutes() {
-        return min;
-    }
-
-    public int getSeconds() {
-        return sec;
+    public String getTimeRemaining() {
+        return hours + ":" + (min < 10 ? "0" : "") + min + ":" + (sec < 10 ? "0" : "") + sec;
     }
 
 }

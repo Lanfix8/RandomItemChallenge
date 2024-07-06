@@ -4,6 +4,8 @@ import fr.lanfix.randomitemchallenge.events.GameEvents;
 import fr.lanfix.randomitemchallenge.events.ItemEvents;
 import fr.lanfix.randomitemchallenge.game.Game;
 import fr.lanfix.randomitemchallenge.placeholderapi.RandomItemChallengeExpansion;
+import fr.lanfix.randomitemchallenge.scoreboard.NoScoreboard;
+import fr.lanfix.randomitemchallenge.scoreboard.ScoreboardManager;
 import fr.lanfix.randomitemchallenge.utils.Text;
 import fr.lanfix.randomitemchallenge.world.WorldManager;
 import org.bukkit.Bukkit;
@@ -25,10 +27,9 @@ public final class RandomItemChallenge extends JavaPlugin {
 
     @Override
     public void onEnable() {
-        // save default config
         this.saveDefaultConfig();
-        // load texts
         this.loadTexts();
+        this.loadGame();
         // Register events
         PluginManager pluginManager = getServer().getPluginManager();
         pluginManager.registerEvents(new GameEvents(this.game), this);
@@ -53,11 +54,31 @@ public final class RandomItemChallenge extends JavaPlugin {
             }
         }
         this.text = new Text(YamlConfiguration.loadConfiguration(textsFile));
-        // load worldmanager and game objects
+    }
+
+    private void loadGame() {
+        // load scoreboard
+        File scoreboardFile = new File(this.getDataFolder(), "scoreboard.yml");
+        if (!scoreboardFile.exists()) {
+            InputStream link = this.getResource("scoreboard.yml");
+            assert link != null;
+            try {
+                Files.copy(link, scoreboardFile.getAbsoluteFile().toPath());
+            } catch (IOException e) {
+                throw new RuntimeException(e);
+            }
+        }
+        YamlConfiguration sbConfig = YamlConfiguration.loadConfiguration(scoreboardFile);
+        boolean customScoreboard = sbConfig.getBoolean("custom-scoreboard");
+        boolean PAPIEnabled = Bukkit.getPluginManager().getPlugin("PlaceholderAPI") != null;
+        ScoreboardManager sb = customScoreboard ?
+                new ScoreboardManager(game, sbConfig.getStringList("scoreboard"), PAPIEnabled) : new NoScoreboard();
+        // load worldmanager
         WorldManager.createWorldManager(getConfig().getStringList("biomes-blacklist"),
                 getConfig().getInt("border", 500),
                 getConfig().getBoolean("use-default-world", true));
-        this.game = new Game(this, text);
+        // load game
+        this.game = new Game(this, text, sb);
     }
 
     @Override
