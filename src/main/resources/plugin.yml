@@ -2,7 +2,7 @@ name: RandomItemChallenge
 author: Lanfix
 version: '${project.version}'
 main: fr.lanfix.randomitemchallenge.RandomItemChallenge
-api-version: 1.20
+api-version: 1.21
 commands:
   randomitemchallenge:
     description: Start or stop the Random Item Challenge

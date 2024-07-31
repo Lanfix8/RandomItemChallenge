@@ -147,5 +147,7 @@ items:
   - bamboo_planks
   - SUSPICIOUS_SAND
   - BRUSH
+  - MACE
+  - WIND_CHARGE
 
-config-version: 1.3 # Don't touch this
+config-version: 1.6 # Don't touch this

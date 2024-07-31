@@ -93,7 +93,7 @@ public final class RandomItemChallenge extends JavaPlugin {
         super.saveDefaultConfig();
         YamlConfiguration config = (YamlConfiguration) getConfig();
         String configVersion = config.getString("config-version", "1.2");
-        if (configVersion.equals("1.3")) return;
+        if (configVersion.equals("1.6")) return;
         File configFile = new File(getDataFolder(), "config.yml");
         if (configVersion.equals("1.2")) { // Update config to 1.3
             try {
@@ -111,6 +111,14 @@ public final class RandomItemChallenge extends JavaPlugin {
             items.addAll(List.of("netherite_upgrade_smithing_template", "cherry_sapling", "bamboo_planks", "SUSPICIOUS_SAND", "BRUSH"));
             config.set("items", items);
             configVersion = "1.3";
+            config.set("config-version", configVersion);
+            saveConfig();
+        }
+        if (configVersion.equals("1.3")) { // Update config to 1.6
+            List<String> items = config.getStringList("items");
+            items.addAll(List.of("MACE", "WIND_CHARGE"));
+            config.set("items", items);
+            configVersion = "1.6";
             config.set("config-version", configVersion);
             saveConfig();
         }
