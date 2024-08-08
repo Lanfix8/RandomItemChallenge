@@ -6,6 +6,7 @@ import org.bukkit.Bukkit;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandExecutor;
 import org.bukkit.command.CommandSender;
+import org.jetbrains.annotations.NotNull;
 
 public class RandomItemChallenge implements CommandExecutor {
 
@@ -18,7 +19,7 @@ public class RandomItemChallenge implements CommandExecutor {
     }
 
     @Override
-    public boolean onCommand(CommandSender sender, Command cmd, String msg, String[] args) {
+    public boolean onCommand(@NotNull CommandSender sender, @NotNull Command cmd, @NotNull String msg, String[] args) {
         // TODO Make it change scenarios (add arguments and TabCompleter)
         if (game.isRunning()) {
             Bukkit.broadcastMessage(text.getBroadcast("forced-stop"));
