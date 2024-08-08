@@ -8,12 +8,12 @@ import org.bukkit.command.CommandExecutor;
 import org.bukkit.command.CommandSender;
 import org.jetbrains.annotations.NotNull;
 
-public class RandomItemChallenge implements CommandExecutor {
+public class RandomItemChallengeCommand implements CommandExecutor {
 
     private final Game game;
     private final Text text;
 
-    public RandomItemChallenge(Game game, Text text) {
+    public RandomItemChallengeCommand(Game game, Text text) {
         this.game = game;
         this.text = text;
     }

@@ -1,5 +1,6 @@
 package fr.lanfix.randomitemchallenge;
 
+import fr.lanfix.randomitemchallenge.commands.RandomItemChallengeCommand;
 import fr.lanfix.randomitemchallenge.events.GameEvents;
 import fr.lanfix.randomitemchallenge.events.ItemEvents;
 import fr.lanfix.randomitemchallenge.game.Game;
@@ -36,7 +37,7 @@ public final class RandomItemChallenge extends JavaPlugin {
         pluginManager.registerEvents(new GameEvents(this.game), this);
         pluginManager.registerEvents(new ItemEvents(game), this);
         // Register commands
-        getCommand("randomitemchallenge").setExecutor(new fr.lanfix.randomitemchallenge.commands.RandomItemChallenge(this.game, this.text));
+        getCommand("randomitemchallenge").setExecutor(new RandomItemChallengeCommand(this.game, this.text));
         // Register PlaceholderAPI expansion
         if(Bukkit.getPluginManager().getPlugin("PlaceholderAPI") != null) {
             new RandomItemChallengeExpansion(this.game).register();
