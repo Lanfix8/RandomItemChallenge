@@ -3,6 +3,7 @@ package fr.lanfix.randomitemchallenge;
 import fr.lanfix.randomitemchallenge.events.GameEvents;
 import fr.lanfix.randomitemchallenge.events.ItemEvents;
 import fr.lanfix.randomitemchallenge.game.Game;
+import fr.lanfix.randomitemchallenge.game.scenario.Scenario;
 import fr.lanfix.randomitemchallenge.placeholderapi.RandomItemChallengeExpansion;
 import fr.lanfix.randomitemchallenge.scoreboard.NoScoreboard;
 import fr.lanfix.randomitemchallenge.scoreboard.ScoreboardManager;
@@ -78,7 +79,8 @@ public final class RandomItemChallenge extends JavaPlugin {
                 getConfig().getInt("border", 500),
                 getConfig().getBoolean("use-default-world", true));
         // load game
-        this.game = new Game(this, text, sb);
+        this.game = new Game(this, text, sb,
+                Scenario.loadScenario(this, getConfig().getString("default-scenario")));
     }
 
     @Override
@@ -122,10 +124,15 @@ public final class RandomItemChallenge extends JavaPlugin {
             config.set("config-version", configVersion);
             saveConfig();
         }
+        // TODO Update old config to create a new scenario with old settings named old which will be the default-scenario for them.
+        // TODO Save default scenarios
     }
 
     /*
-
+    2.0
+    Scenarios -> Update plugin description accordingly
+    Internal optimisations
+    Stopped announcing advancements
      */
 
 }

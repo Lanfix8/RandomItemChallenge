@@ -26,6 +26,7 @@ public class WorldManager {
         world.getWorldBorder().setSize(border);
         world.setTime(0);
         world.setDifficulty(Difficulty.HARD);
+        world.setGameRule(GameRule.ANNOUNCE_ADVANCEMENTS, false);
         world.setGameRule(GameRule.DO_ENTITY_DROPS, false);
         world.setGameRule(GameRule.DO_MOB_LOOT, false);
         world.setGameRule(GameRule.DO_TILE_DROPS, false);
@@ -68,8 +69,8 @@ public class WorldManager {
                     !biomesBlacklist.contains(world.getBiome(x, 63, z).toString())) {
                 found = true;
             } else {
-                x = random.nextInt(tries * -5, tries * 5 + 1) * 600;
-                z = random.nextInt(tries * -5, tries * 5 + 1) * 600;
+                x = random.nextInt(tries * -5, tries * 5 + 1) * 3000;
+                z = random.nextInt(tries * -5, tries * 5 + 1) * 3000;
                 tries++;
             }
         }

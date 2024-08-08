@@ -19,6 +19,7 @@ public class RandomItemChallenge implements CommandExecutor {
 
     @Override
     public boolean onCommand(CommandSender sender, Command cmd, String msg, String[] args) {
+        // TODO Make it change scenarios (add arguments and TabCompleter)
         if (game.isRunning()) {
             Bukkit.broadcastMessage(text.getBroadcast("forced-stop"));
             game.stop();

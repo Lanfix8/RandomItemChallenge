@@ -36,6 +36,7 @@ public class RandomItemChallengeExpansion extends PlaceholderExpansion {
         else if (params.equalsIgnoreCase("players")) {
             return String.valueOf(game.getPlayersRemaining());
         }
+        // TODO add scenario name in PAPI and add line in the default scoreboard for the scenario
         return null;
     }
 }

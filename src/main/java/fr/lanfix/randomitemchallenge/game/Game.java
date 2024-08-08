@@ -4,18 +4,17 @@ import fr.lanfix.randomitemchallenge.RandomItemChallenge;
 import fr.lanfix.randomitemchallenge.api.event.RandomItemChallengeStartEvent;
 import fr.lanfix.randomitemchallenge.api.event.RandomItemChallengeStopEvent;
 import fr.lanfix.randomitemchallenge.api.event.RandomItemChallengeUpdateEvent;
+import fr.lanfix.randomitemchallenge.game.scenario.Scenario;
 import fr.lanfix.randomitemchallenge.scoreboard.ScoreboardManager;
 import fr.lanfix.randomitemchallenge.utils.Text;
 import fr.lanfix.randomitemchallenge.world.WorldManager;
 import org.bukkit.*;
 import org.bukkit.entity.Player;
 import org.bukkit.inventory.ItemStack;
-import org.bukkit.inventory.meta.ItemMeta;
 import org.bukkit.scheduler.BukkitRunnable;
 import org.bukkit.scoreboard.DisplaySlot;
 
 import java.util.ArrayList;
-import java.util.Collections;
 import java.util.List;
 import java.util.Random;
 import java.util.logging.Level;
@@ -26,6 +25,7 @@ public class Game {
     private final WorldManager worldManager;
     private final Text text;
     private final ScoreboardManager sb;
+    private final Scenario scenario;
 
     private final Random random;
 
@@ -43,10 +43,11 @@ public class Game {
     private int min;
     private int sec;
 
-    public Game(RandomItemChallenge plugin, Text text, ScoreboardManager sb) {
+    public Game(RandomItemChallenge plugin, Text text, ScoreboardManager sb, Scenario scenario) {
         this.plugin = plugin;
         this.text = text;
         this.sb = sb;
+        this.scenario = scenario;
         this.worldManager = WorldManager.getWorldManager();
         this.random = new Random();
         this.running = false;
@@ -89,6 +90,14 @@ public class Game {
             }
         };
         worldManager.startGracePeriod();
+        // send scenario info after 5 seconds into the game
+        new BukkitRunnable() {
+            @Override
+            public void run() {
+                Bukkit.broadcastMessage("Scenario: " + scenario.getName());
+            }
+        }.runTaskLater(plugin, 20 + 5 * 20);
+        // start game loop
         gameLoop.runTaskTimer(plugin, 20, 20);
     }
 
@@ -100,8 +109,7 @@ public class Game {
         spectators.forEach(player -> player.getScoreboard().clearSlot(DisplaySlot.SIDEBAR));
         spectators.clear();
         this.running = false;
-        Bukkit.broadcastMessage(text.getBroadcast("end").replace("$TIME", this.getTimeSinceStart())
-        );
+        Bukkit.broadcastMessage(text.getBroadcast("end").replace("$TIME", this.getTimeSinceStart()));
         Bukkit.broadcastMessage(ChatColor.BLUE + String.valueOf(ChatColor.UNDERLINE) + "Leaderboard :" + this.leaderboard + ChatColor.RESET);
         new BukkitRunnable() {
             @Override
@@ -115,7 +123,8 @@ public class Game {
         Bukkit.getPluginManager().callEvent(new RandomItemChallengeUpdateEvent(this));
         this.sec--;
         if (this.sec == -1) {
-            if (this.min % plugin.getConfig().getInt("drop-interval", 2) == 0) { // Drop items every x min
+            // TODO Change this calculations because it is not the proper way
+            if (this.min % scenario.getDropInterval() == 0) { // Drop items every x min
                 this.giveItems();
             }
             this.sec += 60;
@@ -161,36 +170,13 @@ public class Game {
 
     public void giveItems() {
         Bukkit.broadcastMessage(text.getBroadcast("item-drop"));
-        List<Material> choices = switch(plugin.getConfig().getString("itemChooseMode", "custom")) {
-            case "custom" -> {
-                List<Material> r = new ArrayList<>();
-                plugin.getConfig().getStringList("items").forEach(string -> r.add(Material.valueOf(string.toUpperCase())));
-                yield r;
-            }
-            case "allItems" -> {
-                List<Material> r = new ArrayList<>();
-                for (Material material : Material.values()) if (material.isItem()) r.add(material);
-                yield r;
-            }
-            default -> throw new IllegalStateException("Wrong itemChooseMode: " + plugin.getConfig().getString("itemChooseMode"));
-        };
         // repeat for all players
         for (Player player: players) {
-            for (int i = 0; i < plugin.getConfig().getInt("drop-count", 1); i++) {
-                // find the location and choose item
-                Location location = player.getLocation();
-                Material material = choices.get(this.random.nextInt(choices.size()));
-                ItemStack item = new ItemStack(material, material.getMaxStackSize());
-                // set player name in lore to set property so others don't pick up his items
-                ItemMeta itemMeta = item.getItemMeta();
-                assert itemMeta != null;
-                itemMeta.setLore(Collections.singletonList(player.getName()));
-                item.setItemMeta(itemMeta);
-                // drop the items
-                for (int j = 0; j < plugin.getConfig().getInt("stacks", 9); j++) {
-                    player.getWorld().dropItem(location, item);
-                }
-            }
+            // get drops and location
+            List<ItemStack> drops = scenario.getNewDrop(random, player.getName());
+            World world = player.getWorld();
+            Location location = player.getLocation();
+            drops.forEach(item -> world.dropItem(location, item));
         }
     }
 
