@@ -15,12 +15,12 @@ import org.bukkit.configuration.file.YamlConfiguration;
 import org.bukkit.plugin.PluginManager;
 import org.bukkit.plugin.java.JavaPlugin;
 
-import java.io.File;
-import java.io.FileWriter;
-import java.io.IOException;
-import java.io.InputStream;
+import java.io.*;
+import java.net.URISyntaxException;
+import java.net.URL;
 import java.nio.file.Files;
 import java.util.List;
+import java.util.jar.JarFile;
 
 public final class RandomItemChallenge extends JavaPlugin {
 
@@ -82,6 +82,7 @@ public final class RandomItemChallenge extends JavaPlugin {
         // load game
         this.game = new Game(this, text, sb,
                 Scenario.loadScenario(this, getConfig().getString("default-scenario")));
+        sb.setGame(game);
     }
 
     @Override
@@ -94,6 +95,7 @@ public final class RandomItemChallenge extends JavaPlugin {
     @Override
     public void saveDefaultConfig() {
         super.saveDefaultConfig();
+        // TODO Handle all this in another file (it takes too much space)
         YamlConfiguration config = (YamlConfiguration) getConfig();
         String configVersion = config.getString("config-version", "1.2");
         if (configVersion.equals("1.6")) return;
@@ -125,15 +127,55 @@ public final class RandomItemChallenge extends JavaPlugin {
             config.set("config-version", configVersion);
             saveConfig();
         }
-        // TODO Update old config to create a new scenario with old settings named old which will be the default-scenario for them.
-        // TODO Save default scenarios
+        File scenariosFolder = new File(this.getDataFolder(), "scenarios");
+        if (!scenariosFolder.exists()) scenariosFolder.mkdirs();
+        if (configVersion.equals("1.6")) { // Update config to 2.0 (scenarios and rarities update)
+            File oldScenarioFile = new File(scenariosFolder, "old.yml");
+            YamlConfiguration oldScenario = YamlConfiguration.loadConfiguration(oldScenarioFile);
+            oldScenario.set("name", "Old Configuration");
+            oldScenario.set("type", "list");
+            oldScenario.set("stacks", config.getInt("stacks"));
+            oldScenario.set("drop-interval", config.getInt("drop-interval"));
+            oldScenario.set("drop-count", config.getInt("drop-count"));
+            oldScenario.set("items", config.getStringList("items"));
+            try {
+                oldScenario.save(oldScenarioFile);
+            } catch (IOException e) {
+                throw new RuntimeException(e);
+            }
+            config.set("default-scenario", "old");
+            configVersion = "2.0";
+            config.set("config-version", configVersion);
+            saveConfig();
+        }
+        saveDefaultScenarios();
+    }
+
+    private void saveDefaultScenarios() {
+        final List<String> scenarios = List.of("allitems", "base", "noweapon");
+        scenarios.forEach(scenario -> {
+            String subPath = "scenarios/" + scenario + ".yml";
+            File scenarioFile = new File(this.getDataFolder(), subPath);
+            if (!scenarioFile.exists()) {
+                InputStream link = this.getResource(subPath);
+                assert link != null;
+                try {
+                    Files.copy(link, scenarioFile.getAbsoluteFile().toPath());
+                } catch (IOException e) {
+                    throw new RuntimeException(e);
+                }
+            }
+        });
     }
 
     /*
     2.0
     Scenarios -> Update plugin description accordingly
+    The previous config will be transferred into a scenario, the 'itemChooseMode', 'stacks', 'drop-interval',
+     'drop-count' and 'items' entries can be safely deleted
     Internal optimisations
     Stopped announcing advancements
+    Fixed 1 bug
      */
 
 }

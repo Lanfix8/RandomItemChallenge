@@ -21,7 +21,7 @@ public class OneListScenario extends Scenario {
         List<ItemStack> drops = new ArrayList<>();
         for (int i = 0; i < this.dropCount; i++) {
             // Choose item
-            Material material = choices.get(random.nextInt(choices.size()));
+            Material material = choices.get(random.nextInt(choices.size())); // FIXME IllegalArgumentException: bound must be positive
             ItemStack item = new ItemStack(material, material.getMaxStackSize());
             for (int j = 0; j < this.dropStacks; j++) {
                 drops.add(item);

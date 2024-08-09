@@ -6,7 +6,7 @@
 
   <groupId>fr.lanfix</groupId>
   <artifactId>RandomItemChallenge</artifactId>
-  <version>2.0-alpha.1</version>
+  <version>2.0-alpha.5</version>
   <packaging>jar</packaging>
 
   <name>RandomItemChallenge</name>

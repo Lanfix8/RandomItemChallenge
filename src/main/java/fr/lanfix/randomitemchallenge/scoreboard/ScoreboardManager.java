@@ -12,7 +12,7 @@ import java.util.Objects;
 
 public class ScoreboardManager {
 
-    private final Game game;
+    private Game game;
     private final List<String> lines;
     private final boolean PAPIEnabled;
 
@@ -75,4 +75,7 @@ public class ScoreboardManager {
         player.setScoreboard(scoreboard);
     }
 
+    public void setGame(Game game) {
+        this.game = game;
+    }
 }

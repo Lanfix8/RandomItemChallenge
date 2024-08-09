@@ -28,7 +28,7 @@ public abstract class Scenario {
     }
 
     public static Scenario loadScenario(RandomItemChallenge plugin, String codeName) {
-        File scenarioFile = new File(plugin.getDataFolder(), codeName + ".yml");
+        File scenarioFile = new File(plugin.getDataFolder(),  "scenarios/" + codeName + ".yml");
         YamlConfiguration scenarioConfig = YamlConfiguration.loadConfiguration(scenarioFile);
 
         // basic parameters
@@ -44,6 +44,7 @@ public abstract class Scenario {
                 List<Material> choices = new ArrayList<>();
                 plugin.getConfig().getStringList("items").forEach(
                         string -> choices.add(Material.valueOf(string.toUpperCase())));
+                System.out.println(choices); // FIXME Don't forget to remove this
                 return new OneListScenario(name, dropInterval, dropStacks, dropCount, choices);
             }
             case "allItems" -> {
@@ -51,7 +52,7 @@ public abstract class Scenario {
                 for (Material material : Material.values()) if (material.isItem()) choices.add(material);
                 return new OneListScenario(name, dropInterval, dropStacks, dropCount, choices);
             }
-            default -> throw new IllegalStateException("Wrong itemChooseMode: " + plugin.getConfig().getString("itemChooseMode"));
+            default -> throw new IllegalStateException("Wrong scenario type: " + plugin.getConfig().getString("itemChooseMode"));
         }
     }
 

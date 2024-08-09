@@ -94,7 +94,7 @@ public class Game {
         new BukkitRunnable() {
             @Override
             public void run() {
-                Bukkit.broadcastMessage("Scenario: " + scenario.getName());
+                Bukkit.broadcastMessage(ChatColor.BLUE + "Scenario: " + scenario.getName());
             }
         }.runTaskLater(plugin, 20 + 5 * 20);
         // start game loop
@@ -122,7 +122,7 @@ public class Game {
     private void newGameSecond() {
         Bukkit.getPluginManager().callEvent(new RandomItemChallengeUpdateEvent(this));
         this.sec--;
-        if (this.sec == -1) {
+        if (this.sec < 0) {
             // TODO Change this calculations because it is not the proper way
             if (this.min % scenario.getDropInterval() == 0) { // Drop items every x min
                 this.giveItems();
