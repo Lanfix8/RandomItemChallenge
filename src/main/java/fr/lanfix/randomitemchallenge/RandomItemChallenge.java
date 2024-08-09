@@ -15,12 +15,12 @@ import org.bukkit.configuration.file.YamlConfiguration;
 import org.bukkit.plugin.PluginManager;
 import org.bukkit.plugin.java.JavaPlugin;
 
-import java.io.*;
-import java.net.URISyntaxException;
-import java.net.URL;
+import java.io.File;
+import java.io.FileWriter;
+import java.io.IOException;
+import java.io.InputStream;
 import java.nio.file.Files;
 import java.util.List;
-import java.util.jar.JarFile;
 
 public final class RandomItemChallenge extends JavaPlugin {
 
