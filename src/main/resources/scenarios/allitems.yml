@@ -1,0 +1,15 @@
+name: "All Items"
+
+# Type of scenario
+# change the way the items are chosen
+# 'allItems' is for all the items in the game
+# 'list' draws items from a single list.
+#   You can create an 'items' field in this field to control which items can be obtained.
+type: allItems
+
+# number of stacks given
+stacks: 9
+# time between the drops (minutes)
+drop-interval: 2
+# number of drops (different items)
+drop-count: 1

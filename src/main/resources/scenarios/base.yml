@@ -14,7 +14,7 @@ drop-interval: 2
 # number of drops (different items)
 drop-count: 1
 
-# list of items if 'itemChooseMode' is set to custom
+# list of items when 'type' is list
 items:
   - STONE
   - ANDESITE
