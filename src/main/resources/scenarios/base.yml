@@ -1,5 +1,8 @@
 name: "Base"
 
+# Message broadcasted when dropping the items
+item-drop-message: "§aITEM DROP !!"
+
 # Type of scenario
 # change the way the items are chosen
 # 'allItems' is for all the items in the game

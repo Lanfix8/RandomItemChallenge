@@ -4,7 +4,6 @@ broadcast:
   end: §9End of the game !\nThe game lasted $TIME.
   end-by-time: §cTime has run out !\nRandom Item Challenge is over.
   forced-stop: §cForced stop of the Random Item Challenge
-  item-drop: §aITEM DROP !!
   player-out: $PLAYER is out ! (#$POS)
   playing-alone: §cSomething wierd happened, are you damn playing alone ?
   winner: §6$WINNER has won !

@@ -10,13 +10,11 @@ import fr.lanfix.randomitemchallenge.utils.Text;
 import fr.lanfix.randomitemchallenge.world.WorldManager;
 import org.bukkit.*;
 import org.bukkit.entity.Player;
-import org.bukkit.inventory.ItemStack;
 import org.bukkit.scheduler.BukkitRunnable;
 import org.bukkit.scoreboard.DisplaySlot;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Random;
 import java.util.logging.Level;
 
 public class Game {
@@ -25,9 +23,8 @@ public class Game {
     private final WorldManager worldManager;
     private final Text text;
     private final ScoreboardManager sb;
-    private final Scenario scenario;
 
-    private final Random random;
+    private Scenario scenario;
 
     private boolean running;
     private BukkitRunnable gameLoop;
@@ -43,18 +40,22 @@ public class Game {
     private int min;
     private int sec;
 
-    public Game(RandomItemChallenge plugin, Text text, ScoreboardManager sb, Scenario scenario) {
+    public Game(RandomItemChallenge plugin, Text text, ScoreboardManager sb) {
         this.plugin = plugin;
         this.text = text;
         this.sb = sb;
-        this.scenario = scenario;
+        this.scenario = Scenario.defaultScenario;
         this.worldManager = WorldManager.getWorldManager();
-        this.random = new Random();
         this.running = false;
         this.players = new ArrayList<>();
         this.spectators = new ArrayList<>();
         durationHours = plugin.getConfig().getInt("game-duration.hours", 2);
         durationMin = plugin.getConfig().getInt("game-duration.minutes", 0);
+    }
+
+    public void start(Scenario scenario) {
+        this.scenario = scenario;
+        start();
     }
 
     public void start() {
@@ -125,7 +126,7 @@ public class Game {
         if (this.sec < 0) {
             // TODO Change this calculations because it is not the proper way
             if (this.min % scenario.getDropInterval() == 0) { // Drop items every x min
-                this.giveItems();
+                scenario.giveItems(players);
             }
             this.sec += 60;
             this.min--;
@@ -165,18 +166,6 @@ public class Game {
         }
         for (Player spectator: this.spectators) {
             sb.updateScoreboard(spectator);
-        }
-    }
-
-    public void giveItems() {
-        Bukkit.broadcastMessage(text.getBroadcast("item-drop"));
-        // repeat for all players
-        for (Player player: players) {
-            // get drops and location
-            List<ItemStack> drops = scenario.getNewDrop(random, player.getName());
-            World world = player.getWorld();
-            Location location = player.getLocation();
-            drops.forEach(item -> world.dropItem(location, item));
         }
     }
 
@@ -226,6 +215,10 @@ public class Game {
 
     public String getTimeRemaining() {
         return hours + ":" + (min < 10 ? "0" : "") + min + ":" + (sec < 10 ? "0" : "") + sec;
+    }
+
+    public void setScenario(Scenario scenario) {
+        this.scenario = scenario;
     }
 
 }

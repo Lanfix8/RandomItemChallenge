@@ -11,6 +11,7 @@ import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.meta.ItemMeta;
 
 import java.util.Collections;
+import java.util.Objects;
 
 public class ItemEvents implements Listener {
 
@@ -42,7 +43,7 @@ public class ItemEvents implements Listener {
             ItemMeta itemMeta = itemStack.getItemMeta();
             assert itemMeta != null;
             if (itemMeta.hasLore()) {
-                if (itemMeta.getLore().get(0).contains((event.getEntity()).getName())) {
+                if (Objects.requireNonNull(itemMeta.getLore()).get(0).contains((event.getEntity()).getName())) {
                     itemMeta.setLore(null);
                     itemStack.setItemMeta(itemMeta);
                     item.setItemStack(itemStack);

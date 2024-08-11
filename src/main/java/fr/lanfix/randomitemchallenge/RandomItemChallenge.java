@@ -11,6 +11,7 @@ import fr.lanfix.randomitemchallenge.scoreboard.ScoreboardManager;
 import fr.lanfix.randomitemchallenge.utils.Text;
 import fr.lanfix.randomitemchallenge.world.WorldManager;
 import org.bukkit.Bukkit;
+import org.bukkit.command.PluginCommand;
 import org.bukkit.configuration.file.YamlConfiguration;
 import org.bukkit.plugin.PluginManager;
 import org.bukkit.plugin.java.JavaPlugin;
@@ -37,7 +38,9 @@ public final class RandomItemChallenge extends JavaPlugin {
         pluginManager.registerEvents(new GameEvents(this.game), this);
         pluginManager.registerEvents(new ItemEvents(game), this);
         // Register commands
-        getCommand("randomitemchallenge").setExecutor(new RandomItemChallengeCommand(this.game, this.text));
+        PluginCommand RICCommand = getCommand("randomitemchallenge");
+        assert RICCommand != null;
+        RICCommand.setExecutor(new RandomItemChallengeCommand(this, this.game, this.text));
         // Register PlaceholderAPI expansion
         if(Bukkit.getPluginManager().getPlugin("PlaceholderAPI") != null) {
             new RandomItemChallengeExpansion(this.game).register();
@@ -79,9 +82,11 @@ public final class RandomItemChallenge extends JavaPlugin {
         WorldManager.createWorldManager(getConfig().getStringList("biomes-blacklist"),
                 getConfig().getInt("border", 500),
                 getConfig().getBoolean("use-default-world", true));
+        // load scenarios
+        Scenario.loadScenarios(this);
+        if (Scenario.defaultScenario == null) Bukkit.getLogger().warning("[RandomItemChallenge] Unknown default scenario, please edit the configuration.");
         // load game
-        this.game = new Game(this, text, sb,
-                Scenario.loadScenario(this, getConfig().getString("default-scenario")));
+        this.game = new Game(this, text, sb);
         sb.setGame(game);
     }
 
@@ -176,6 +181,9 @@ public final class RandomItemChallenge extends JavaPlugin {
     Internal optimisations
     Stopped announcing advancements
     Fixed 1 bug
+    Ric command alias
+    Changed permission to randomitemchallenge.admin
+    New command logic
      */
 
 }
