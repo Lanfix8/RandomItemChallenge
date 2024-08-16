@@ -1,0 +1,61 @@
+name: "Cheat Drops"
+
+# Message broadcasted when dropping the items
+item-drop-message: "§aCheat Items Drop !!"
+
+# Type of scenario
+# change the way the items are chosen
+# 'allItems' is for all the items in the game
+# 'list' draws items from a single list.
+#   You can create an 'items' field in this field to control which items can be obtained.
+# 'rarities' manages multiple item lists :
+#   Each one has its own probability and everyone get their items from the same list
+#   To create check the multiple 'rarities' scenarios already made.
+type: list
+
+# number of stacks given
+stacks: 9
+# time between the drops (minutes)
+drop-interval: 2
+# number of drops (different items)
+drop-count: 1
+
+# list of items when 'type' is list
+items:
+  - ANCIENT_DEBRIS
+  - DIAMOND_BLOCK
+  - OAK_WOOD
+  - CRAFTING_TABLE
+  - TNT
+  - FLINT_AND_STEEL
+  - RAIL
+  - TNT_MINECART
+  - ELYTRA
+  - BOW
+  - ARROW
+  - DIAMOND
+  - IRON_BLOCK
+  - DIAMOND_SWORD
+  - DIAMOND_AXE
+  - NETHERITE_SWORD
+  - NETHERITE_AXE
+  - DIAMOND_HELMET
+  - DIAMOND_LEGGINGS
+  - NETHERITE_CHESTPLATE
+  - NETHERITE_BOOTS
+  - GOLDEN_APPLE
+  - ENCHANTED_GOLDEN_APPLE
+  - WATER_BUCKET
+  - LAVA_BUCKET
+  - FISHING_ROD
+  - ENDER_PEARL
+  - WARDEN_SPAWN_EGG
+  - FIREWORK_ROCKET
+  - END_CRYSTAL
+  - OBSIDIAN
+  - SHIELD
+  - TOTEM_OF_UNDYING
+  - TRIDENT
+  - CROSSBOW
+  - MACE
+  - WIND_CHARGE

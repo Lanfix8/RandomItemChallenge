@@ -1,11 +1,13 @@
 package fr.lanfix.randomitemchallenge.game.scenario;
 
 import fr.lanfix.randomitemchallenge.RandomItemChallenge;
+import fr.lanfix.randomitemchallenge.exceptions.ConfigurationException;
 import fr.lanfix.randomitemchallenge.utils.FileUtils;
 import org.bukkit.Bukkit;
 import org.bukkit.Location;
 import org.bukkit.Material;
 import org.bukkit.World;
+import org.bukkit.configuration.ConfigurationSection;
 import org.bukkit.configuration.file.YamlConfiguration;
 import org.bukkit.entity.Player;
 import org.bukkit.inventory.ItemStack;
@@ -76,7 +78,21 @@ public abstract class Scenario {
                 for (Material material : Material.values()) if (material.isItem()) choices.add(material);
                 return new OneListScenario(name, broadcastMessage, dropInterval, dropStacks, dropCount, choices);
             }
-            default -> throw new IllegalStateException("Wrong scenario type: " + plugin.getConfig().getString("itemChooseMode"));
+            case "rarities" -> {
+                ConfigurationSection raritiesSection = scenarioConfig.getConfigurationSection("rarities");
+                if (raritiesSection == null) throw new ConfigurationException(
+                        "Rarities scenario '" + name + "' has no 'rarities' field in its configuration.");
+                List<Rarity> rarities = raritiesSection.getKeys(false).stream().map(rarity -> {
+                    String rarityName = raritiesSection.getString(rarity + ".name");
+                    double probability = raritiesSection.getDouble(rarity + ".probability");
+                    List<Material> choices = new ArrayList<>();
+                    raritiesSection.getStringList(rarity + ".items").forEach(
+                            string -> choices.add(Material.valueOf(string.toUpperCase())));
+                    return new Rarity(probability, choices, dropStacks, dropCount, rarityName);
+                }).toList();
+                return new RaritiesScenario(name, broadcastMessage, dropInterval, dropStacks, dropCount, rarities);
+            }
+            default -> throw new IllegalStateException("Wrong scenario type: " + plugin.getConfig().getString("type"));
         }
     }
 
@@ -85,7 +101,7 @@ public abstract class Scenario {
     }
 
     public void giveItems(List<Player> players) {
-        Bukkit.broadcastMessage(broadcastMessage); // TODO Move from text to scenario config
+        Bukkit.broadcastMessage(broadcastMessage);
         // repeat for all players
         for (Player player: players) {
             // get drops and location
@@ -99,7 +115,7 @@ public abstract class Scenario {
         }
     }
 
-    private void protectItems(List<ItemStack> items, String playerName) {
+    protected void protectItems(List<ItemStack> items, String playerName) {
         items.forEach(item -> protectItem(item, playerName));
     }
 

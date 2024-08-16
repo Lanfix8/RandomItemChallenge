@@ -1,13 +1,16 @@
 name: "All Items"
 
 # Message broadcasted when dropping the items
-item-drop-message: "§aITEM DROP !!"
+item-drop-message: "§aRandom Item Drop !!"
 
 # Type of scenario
 # change the way the items are chosen
 # 'allItems' is for all the items in the game
 # 'list' draws items from a single list.
 #   You can create an 'items' field in this field to control which items can be obtained.
+# 'rarities' manages multiple item lists :
+#   Each one has its own probability and everyone get their items from the same list
+#   To create check the multiple 'rarities' scenarios already made.
 type: allItems
 
 # number of stacks given

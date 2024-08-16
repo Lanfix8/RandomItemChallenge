@@ -73,6 +73,7 @@ public class Game {
             player.sendExperienceChange(0, 0);
             player.setGameMode(GameMode.SURVIVAL);
             player.teleport(spawnLocation);
+            player.setRespawnLocation(spawnLocation);
             player.getInventory().clear();
             player.getActivePotionEffects().forEach(effect -> player.removePotionEffect(effect.getType()));
             player.sendTitle(text.getTitle("start"), null, -1, -1, -1);

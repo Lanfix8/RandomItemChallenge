@@ -35,7 +35,7 @@ public final class RandomItemChallenge extends JavaPlugin {
         this.loadGame();
         // Register events
         PluginManager pluginManager = getServer().getPluginManager();
-        pluginManager.registerEvents(new GameEvents(this.game), this);
+        pluginManager.registerEvents(new GameEvents(game), this);
         pluginManager.registerEvents(new ItemEvents(game), this);
         // Register commands
         PluginCommand RICCommand = getCommand("randomitemchallenge");
@@ -157,7 +157,7 @@ public final class RandomItemChallenge extends JavaPlugin {
     }
 
     private void saveDefaultScenarios() {
-        final List<String> scenarios = List.of("allitems", "base", "noweapon");
+        final List<String> scenarios = List.of("allitems", "base", "noweapon", "cheat", "rarities1");
         scenarios.forEach(scenario -> {
             String subPath = "scenarios/" + scenario + ".yml";
             File scenarioFile = new File(this.getDataFolder(), subPath);
@@ -180,10 +180,13 @@ public final class RandomItemChallenge extends JavaPlugin {
      'drop-count' and 'items' entries can be safely deleted
     Internal optimisations
     Stopped announcing advancements
-    Fixed 1 bug
+    Fixed 2 bugs
     Ric command alias
     Changed permission to randomitemchallenge.admin
     New command logic
+    default cheat scenario
+    added rarities
+    added default scenario Rarities I
      */
 
 }

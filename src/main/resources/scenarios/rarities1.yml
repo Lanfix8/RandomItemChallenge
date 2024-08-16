@@ -1,0 +1,169 @@
+name: "Rarities I"
+
+# Message broadcasted when dropping the items
+# %rarity% is replaced with the rarity name
+item-drop-message: "%rarity% Item Drop !!"
+
+# Type of scenario
+# change the way the items are chosen
+# 'allItems' is for all the items in the game
+# 'list' draws items from a single list.
+#   You can create an 'items' field in this field to control which items can be obtained.
+# 'rarities' manages multiple item lists :
+#   Each one has its own probability and everyone get their items from the same list
+#   To create check the multiple 'rarities' scenarios already made.
+type: rarities
+
+# number of stacks given
+stacks: 9
+# time between the drops (minutes)
+drop-interval: 2
+# number of drops (different items)
+drop-count: 1
+
+# Rarities
+rarities:
+  common:
+    name: "§fCommon"
+    probability: 0.564
+    items:
+      - STONE
+      - ANDESITE
+      - GRASS_BLOCK
+      - RED_SAND
+      - DEEPSLATE_COAL_ORE
+      - REDSTONE_ORE
+      - WEATHERED_CUT_COPPER
+      - ACACIA_LEAVES
+      - SPONGE
+      - GLASS
+      - YELLOW_WOOL
+      - BIG_DRIPLEAF
+      - MANGROVE_SLAB
+      - MUD_BRICK_SLAB
+      - END_ROD
+      - DARK_OAK_FENCE
+      - MOSSY_STONE_BRICKS
+      - RED_NETHER_BRICK_WALL
+      - LIGHT_GRAY_GLAZED_TERRACOTTA
+      - MAGENTA_CONCRETE
+      - QUARTZ_STAIRS
+      - CYAN_TERRACOTTA
+      - LIME_STAINED_GLASS
+      - JUNGLE_DOOR
+      - SPYGLASS
+      - GILDED_BLACKSTONE
+      - cherry_sapling
+  uncommon:
+    name: "§aUncommon"
+    probability: 0.25
+    items:
+      - ANCIENT_DEBRIS
+      - BOOKSHELF
+      - OBSIDIAN
+      - LADDER
+      - SOUL_SAND
+      - LILY_PAD
+      - HAY_BLOCK
+      - MAGMA_BLOCK
+      - ORANGE_SHULKER_BOX
+      - PINK_CONCRETE_POWDER
+      - SCAFFOLDING
+      - REDSTONE
+      - SLIME_BLOCK
+      - OBSERVER
+      - RAIL
+      - BLACKSTONE
+      - DIAMOND
+      - LAPIS_LAZULI
+      - IRON_INGOT
+      - GOLD_INGOT
+      - WOODEN_SHOVEL
+      - STONE_HOE
+      - BOOK
+      - PLAYER_HEAD
+      - GOAT_HORN
+      - CAMPFIRE
+      - SMITHING_TABLE
+      - netherite_upgrade_smithing_template
+      - SUSPICIOUS_SAND
+      - BRUSH
+  rare:
+    name: "§1Rare"
+    probability: 0.10
+    items:
+      - DIAMOND_BLOCK
+      - WITHER_ROSE
+      - TWISTING_VINES
+      - CRAFTING_TABLE
+      - ENCHANTING_TABLE
+      - ANVIL
+      - OAK_BOAT
+      - TURTLE_HELMET
+      - ARROW
+      - GOLDEN_PICKAXE
+      - DIAMOND_SHOVEL
+      - DIAMOND_HOE
+      - LEATHER_HELMET
+      - GOLDEN_BOOTS
+      - RED_BED
+      - EXPERIENCE_BOTTLE
+      - FIREWORK_ROCKET
+      - CHORUS_FRUIT
+  epic:
+    name: "§5Epic"
+    probability: 0.05
+    items:
+      - SPRUCE_PLANKS
+      - WARPED_PLANKS
+      - BIRCH_LOG
+      - STRIPPED_CRIMSON_HYPHAE
+      - OAK_WOOD
+      - bamboo_planks
+      - TNT
+      - TNT_MINECART
+      - FLINT_AND_STEEL
+      - NETHERITE_PICKAXE
+      - CHAINMAIL_CHESTPLATE
+      - IRON_LEGGINGS
+      - BOW
+      - CROSSBOW
+      - BUCKET
+      - LAVA_BUCKET
+      - WATER_BUCKET
+      - PUFFERFISH_BUCKET
+      - FISHING_ROD
+      - END_CRYSTAL
+      - POINTED_DRIPSTONE
+      - WIND_CHARGE
+  legendary:
+    name: "§6Legendary"
+    probability: 0.025
+    items:
+      - ELYTRA
+      - DIAMOND_SWORD
+      - NETHERITE_SWORD
+      - DIAMOND_HELMET
+      - DIAMOND_LEGGINGS
+      - NETHERITE_CHESTPLATE
+      - NETHERITE_BOOTS
+      - GOLDEN_APPLE
+      - ENDER_PEARL
+      - SHIELD
+  ultimate:
+    name: "&4&lUltimate"
+    probability: 0.01
+    items:
+      - DIAMOND_AXE
+      - NETHERITE_AXE
+      - BLAZE_SPAWN_EGG
+      - CREEPER_SPAWN_EGG
+      - TRIDENT
+  godly:
+    name: "&n&0&l&eGodly"
+    probability: 0.001
+    items:
+      - WARDEN_SPAWN_EGG
+      - ENCHANTED_GOLDEN_APPLE
+      - TOTEM_OF_UNDYING
+      - MACE

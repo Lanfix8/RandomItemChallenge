@@ -129,12 +129,16 @@ public class RandomItemChallengeCommand implements CommandExecutor, TabCompleter
                     return Stream.of("set", "setDefault")
                             .filter(arg -> arg.toLowerCase().startsWith(args[1].toLowerCase())).toList();
                 }
+                if (args[0].equalsIgnoreCase("start")) {
+                    return Scenario.scenarios.keySet().stream()
+                            .filter(arg -> arg.toLowerCase().startsWith(args[1].toLowerCase())).toList();
+                }
                 return List.of();
             }
             case 3 -> {
                 if (args[0].equalsIgnoreCase("scenario") && (args[1].equalsIgnoreCase("set") || args[1].equalsIgnoreCase("setDefault"))) {
                     return Scenario.scenarios.keySet().stream()
-                            .filter(arg -> arg.toLowerCase().startsWith(args[1].toLowerCase())).toList();
+                            .filter(arg -> arg.toLowerCase().startsWith(args[2].toLowerCase())).toList();
                 }
                 return List.of();
             }
