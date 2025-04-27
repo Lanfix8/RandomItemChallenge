@@ -174,19 +174,7 @@ public final class RandomItemChallenge extends JavaPlugin {
     }
 
     /*
-    2.0
-    Scenarios -> Update plugin description accordingly
-    The previous config will be transferred into a scenario, the 'itemChooseMode', 'stacks', 'drop-interval',
-     'drop-count' and 'items' entries can be safely deleted
-    Internal optimisations
-    Stopped announcing advancements
-    Fixed 2 bugs
-    Ric command alias
-    Changed permission to randomitemchallenge.admin
-    New command logic
-    default cheat scenario
-    added rarities
-    added default scenario Rarities I
+
      */
 
 }

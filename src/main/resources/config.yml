@@ -21,6 +21,6 @@ game-duration:
   hours: 2
   minutes: 0
 
-default-scenario: base
+default-scenario: rarities1
 
 config-version: 2.0 # Don't touch this
