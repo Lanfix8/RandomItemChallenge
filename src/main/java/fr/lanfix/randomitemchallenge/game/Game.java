@@ -78,6 +78,7 @@ public class Game {
             player.getActivePotionEffects().forEach(effect -> player.removePotionEffect(effect.getType()));
             player.sendTitle(text.getTitle("start"), null, -1, -1, -1);
             Tracker.trackLocation(player, player.getLocation(), text.getItem("compass"));
+            sb.setGame(this);
             sb.newScoreboard(player);
         }
         this.hours = durationHours;
