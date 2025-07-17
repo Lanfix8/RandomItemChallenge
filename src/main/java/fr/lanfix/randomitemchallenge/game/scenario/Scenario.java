@@ -2,6 +2,8 @@ package fr.lanfix.randomitemchallenge.game.scenario;
 
 import fr.lanfix.randomitemchallenge.RandomItemChallenge;
 import fr.lanfix.randomitemchallenge.exceptions.ConfigurationException;
+import fr.lanfix.randomitemchallenge.game.scenario.dropchoice.DropChoice;
+import fr.lanfix.randomitemchallenge.game.scenario.dropchoice.SingleDropChoice;
 import fr.lanfix.randomitemchallenge.utils.FileUtils;
 import org.bukkit.Bukkit;
 import org.bukkit.Location;
@@ -28,15 +30,13 @@ public abstract class Scenario {
     final String broadcastMessage;
 
     final int dropInterval;
-    final int dropStacks;
     final int dropCount;
 
-    Scenario(String name, String broadcastMessage, int dropInterval, int dropStacks, int dropCount) {
+    Scenario(String name, String broadcastMessage, int dropInterval, int dropCount) {
         this.random = new Random();
         this.name = name;
         this.broadcastMessage = broadcastMessage;
         this.dropInterval = dropInterval;
-        this.dropStacks = dropStacks;
         this.dropCount = dropCount;
     }
 
@@ -68,15 +68,14 @@ public abstract class Scenario {
         // type-specific parameters
         switch (scenarioConfig.getString("type", "allItems")) {
             case "list" -> {
-                List<Material> choices = new ArrayList<>();
-                scenarioConfig.getStringList("items").forEach(
-                        string -> choices.add(Material.valueOf(string.toUpperCase())));
-                return new OneListScenario(name, broadcastMessage, dropInterval, dropStacks, dropCount, choices);
+                List<DropChoice> dropChoices = DropChoice.loadDropChoices(scenarioConfig.getStringList("items"), dropStacks);
+                return new OneListScenario(name, broadcastMessage, dropInterval, dropCount, dropChoices);
             }
             case "allItems" -> {
-                List<Material> choices = new ArrayList<>();
-                for (Material material : Material.values()) if (material.isItem()) choices.add(material);
-                return new OneListScenario(name, broadcastMessage, dropInterval, dropStacks, dropCount, choices);
+                List<DropChoice> dropChoices = new ArrayList<>();
+                for (Material material : Material.values()) if (material.isItem())
+                    dropChoices.add(new SingleDropChoice(dropStacks, material));
+                return new OneListScenario(name, broadcastMessage, dropInterval, dropCount, dropChoices);
             }
             case "rarities" -> {
                 ConfigurationSection raritiesSection = scenarioConfig.getConfigurationSection("rarities");
@@ -85,10 +84,8 @@ public abstract class Scenario {
                 List<Rarity> rarities = raritiesSection.getKeys(false).stream().map(rarity -> {
                     String rarityName = raritiesSection.getString(rarity + ".name");
                     double probability = raritiesSection.getDouble(rarity + ".probability");
-                    List<Material> choices = new ArrayList<>();
-                    raritiesSection.getStringList(rarity + ".items").forEach(
-                            string -> choices.add(Material.valueOf(string.toUpperCase())));
-                    return new Rarity(probability, choices, dropStacks, dropCount, rarityName);
+                    List<DropChoice> dropChoices = DropChoice.loadDropChoices(raritiesSection.getStringList(rarity + ".items"), dropStacks);
+                    return new Rarity(probability, dropChoices, dropCount, rarityName);
                 }).toList();
                 return new RaritiesScenario(name, broadcastMessage, dropInterval, dropStacks, dropCount, rarities);
             }

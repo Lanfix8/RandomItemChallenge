@@ -99,7 +99,6 @@ public final class RandomItemChallenge extends JavaPlugin {
     @Override
     public void saveDefaultConfig() {
         super.saveDefaultConfig();
-        // TODO Handle all this in another file (it takes too much space)
         YamlConfiguration config = (YamlConfiguration) getConfig();
         String configVersion = config.getString("config-version", "1.2");
         if (configVersion.startsWith("1.")) {
@@ -138,6 +137,7 @@ public final class RandomItemChallenge extends JavaPlugin {
         Resin Clump and Pale moss (1.21.4)
         Happy Ghast spawn egg and Purple harness (1.21.6)
     Moved wind charges to legendary
+    Created base for ANY, CUSTOM drops
      */
 
 }

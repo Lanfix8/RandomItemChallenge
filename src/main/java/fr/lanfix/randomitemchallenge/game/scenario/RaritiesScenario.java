@@ -13,7 +13,7 @@ public class RaritiesScenario extends Scenario {
     private final List<Rarity> rarities;
 
     public RaritiesScenario(String name, String broadcastMessage, int dropInterval, int dropStacks, int dropCount, List<Rarity> rarities) {
-        super(name, broadcastMessage, dropInterval, dropStacks, dropCount);
+        super(name, broadcastMessage, dropInterval, dropCount);
         this.rarities = rarities;
         rarities.forEach(rarity -> rarity.setRandom(random));
     }

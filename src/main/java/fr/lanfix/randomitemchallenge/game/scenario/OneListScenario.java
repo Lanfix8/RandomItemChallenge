@@ -1,6 +1,6 @@
 package fr.lanfix.randomitemchallenge.game.scenario;
 
-import org.bukkit.Material;
+import fr.lanfix.randomitemchallenge.game.scenario.dropchoice.DropChoice;
 import org.bukkit.inventory.ItemStack;
 
 import java.util.ArrayList;
@@ -8,11 +8,11 @@ import java.util.List;
 
 public class OneListScenario extends Scenario {
 
-    private final List<Material> choices;
+    private final List<DropChoice> dropChoices;
 
-    public OneListScenario(String name, String broadcastMessage, int dropInterval, int dropStacks, int dropCount, List<Material> choices) {
-        super(name, broadcastMessage, dropInterval, dropStacks, dropCount);
-        this.choices = choices;
+    public OneListScenario(String name, String broadcastMessage, int dropInterval, int dropCount, List<DropChoice> dropChoices) {
+        super(name, broadcastMessage, dropInterval, dropCount);
+        this.dropChoices = dropChoices;
     }
 
     @Override
@@ -20,11 +20,8 @@ public class OneListScenario extends Scenario {
         List<ItemStack> drops = new ArrayList<>();
         for (int i = 0; i < this.dropCount; i++) {
             // Choose item
-            Material material = choices.get(random.nextInt(choices.size()));
-            ItemStack item = new ItemStack(material, material.getMaxStackSize());
-            for (int j = 0; j < this.dropStacks; j++) {
-                drops.add(item);
-            }
+            DropChoice dropChoice = this.dropChoices.get(random.nextInt(this.dropChoices.size()));
+            drops.addAll(dropChoice.getDrops());
         }
         return drops;
     }
