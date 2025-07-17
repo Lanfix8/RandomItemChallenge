@@ -17,7 +17,6 @@ import org.bukkit.plugin.PluginManager;
 import org.bukkit.plugin.java.JavaPlugin;
 
 import java.io.File;
-import java.io.FileWriter;
 import java.io.IOException;
 import java.io.InputStream;
 import java.nio.file.Files;
@@ -81,7 +80,7 @@ public final class RandomItemChallenge extends JavaPlugin {
         // load worldmanager
         WorldManager.createWorldManager(getConfig().getStringList("biomes-blacklist"),
                 getConfig().getInt("border", 500),
-                getConfig().getBoolean("use-default-world", true));
+                getConfig().getBoolean("use-separate-world", true));
         // load scenarios
         Scenario.loadScenarios(this);
         if (Scenario.defaultScenario == null) Bukkit.getLogger().warning("[RandomItemChallenge] Unknown default scenario, please edit the configuration.");
@@ -103,61 +102,20 @@ public final class RandomItemChallenge extends JavaPlugin {
         // TODO Handle all this in another file (it takes too much space)
         YamlConfiguration config = (YamlConfiguration) getConfig();
         String configVersion = config.getString("config-version", "1.2");
-        if (configVersion.equals("1.6")) return;
+        if (configVersion.startsWith("1.")) {
+            Bukkit.getLogger().warning("[Random Item Challenge] Found old configuration file of older version (<2.0).");
+            Bukkit.getLogger().warning("Please delete the RandomItemChallenge folder if you want to play with the new version (it introduces many breaking changes).");
+            Bukkit.getLogger().info("You can make a backup of your old config if you liked it, in order to put your options into your own scenario");
+        }
         File configFile = new File(getDataFolder(), "config.yml");
-        if (configVersion.equals("1.2")) { // Update config to 1.3
-            try {
-                FileWriter writer = new FileWriter(configFile, true);
-                writer.append("""
-                        # Game duration
-                        game-duration:
-                          hours: 2
-                          minutes: 0""");
-                writer.close();
-            } catch (IOException e) {
-                throw new RuntimeException(e);
-            }
-            List<String> items = config.getStringList("items");
-            items.addAll(List.of("netherite_upgrade_smithing_template", "cherry_sapling", "bamboo_planks", "SUSPICIOUS_SAND", "BRUSH"));
-            config.set("items", items);
-            configVersion = "1.3";
-            config.set("config-version", configVersion);
-            saveConfig();
-        }
-        if (configVersion.equals("1.3")) { // Update config to 1.6
-            List<String> items = config.getStringList("items");
-            items.addAll(List.of("MACE", "WIND_CHARGE"));
-            config.set("items", items);
-            configVersion = "1.6";
-            config.set("config-version", configVersion);
-            saveConfig();
-        }
+        // Update config (only after 2.0)
         File scenariosFolder = new File(this.getDataFolder(), "scenarios");
         if (!scenariosFolder.exists()) scenariosFolder.mkdirs();
-        if (configVersion.equals("1.6")) { // Update config to 2.0 (scenarios and rarities update)
-            File oldScenarioFile = new File(scenariosFolder, "old.yml");
-            YamlConfiguration oldScenario = YamlConfiguration.loadConfiguration(oldScenarioFile);
-            oldScenario.set("name", "Old Configuration");
-            oldScenario.set("type", "list");
-            oldScenario.set("stacks", config.getInt("stacks"));
-            oldScenario.set("drop-interval", config.getInt("drop-interval"));
-            oldScenario.set("drop-count", config.getInt("drop-count"));
-            oldScenario.set("items", config.getStringList("items"));
-            try {
-                oldScenario.save(oldScenarioFile);
-            } catch (IOException e) {
-                throw new RuntimeException(e);
-            }
-            config.set("default-scenario", "old");
-            configVersion = "2.0";
-            config.set("config-version", configVersion);
-            saveConfig();
-        }
         saveDefaultScenarios();
     }
 
     private void saveDefaultScenarios() {
-        final List<String> scenarios = List.of("allitems", "base", "noweapon", "cheat", "rarities1");
+        final List<String> scenarios = List.of("allitems", "base", "noweapon", "cheat", "rarities1", "rarities2");
         scenarios.forEach(scenario -> {
             String subPath = "scenarios/" + scenario + ".yml";
             File scenarioFile = new File(this.getDataFolder(), subPath);
@@ -174,7 +132,12 @@ public final class RandomItemChallenge extends JavaPlugin {
     }
 
     /*
-
+    Added rarities2 scenario (new default scenario)
+    Added :
+        Vault and trial keys (1.21)
+        Resin Clump and Pale moss (1.21.4)
+        Happy Ghast spawn egg and Purple harness (1.21.6)
+    Moved wind charges to legendary
      */
 
 }

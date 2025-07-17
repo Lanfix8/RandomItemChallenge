@@ -1,5 +1,5 @@
 # If the plugin will create a separate world for the games (otherwise uses default world)
-use-default-world: true
+use-separate-world: true
 # biomes where the game is disabled (oceans by default)
 biomes-blacklist:
   - OCEAN
@@ -21,6 +21,6 @@ game-duration:
   hours: 2
   minutes: 0
 
-default-scenario: rarities1
+default-scenario: rarities2
 
 config-version: 2.0 # Don't touch this

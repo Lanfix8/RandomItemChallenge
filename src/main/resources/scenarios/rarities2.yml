@@ -1,9 +1,9 @@
-name: "Rarities I"
+name: "Rarities II"
 
 # Message broadcasted when dropping the items
 # %rarity% is replaced with the rarity name
 item-drop-message: "%rarity% Item Drop !!"
-
+  
 # Type of scenario
 # change the way the items are chosen
 # 'allItems' is for all the items in the game
@@ -25,7 +25,7 @@ drop-count: 1
 rarities:
   common:
     name: "§fCommon"
-    probability: 0.564
+    probability: 0.15
     items:
       - STONE
       - ANDESITE
@@ -57,7 +57,7 @@ rarities:
       - resin_clump
   uncommon:
     name: "§aUncommon"
-    probability: 0.25
+    probability: 0.20
     items:
       - ANCIENT_DEBRIS
       - BOOKSHELF
@@ -93,7 +93,7 @@ rarities:
       - purple_harness
   rare:
     name: "§1Rare"
-    probability: 0.10
+    probability: 0.25
     items:
       - DIAMOND_BLOCK
       - WITHER_ROSE
@@ -115,7 +115,7 @@ rarities:
       - CHORUS_FRUIT
   epic:
     name: "§5Epic"
-    probability: 0.05
+    probability: 0.24
     items:
       - SPRUCE_PLANKS
       - WARPED_PLANKS
@@ -141,7 +141,7 @@ rarities:
       - happy_ghast_spawn_egg
   legendary:
     name: "§6Legendary"
-    probability: 0.025
+    probability: 0.1
     items:
       - ELYTRA
       - DIAMOND_SWORD
@@ -157,8 +157,8 @@ rarities:
       - TRIAL_KEY
       - WIND_CHARGE
   ultimate:
-    name: "&4&lUltimate"
-    probability: 0.01
+    name: "§4§lUltimate"
+    probability: 0.05
     items:
       - DIAMOND_AXE
       - NETHERITE_AXE
@@ -166,8 +166,8 @@ rarities:
       - CREEPER_SPAWN_EGG
       - TRIDENT
   godly:
-    name: "&n&0&l&eGodly"
-    probability: 0.001
+    name: "§n§0§l§eGodly"
+    probability: 0.01
     items:
       - WARDEN_SPAWN_EGG
       - ENCHANTED_GOLDEN_APPLE
