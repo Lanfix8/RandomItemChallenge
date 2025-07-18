@@ -5,11 +5,9 @@ import org.bukkit.inventory.ItemStack;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Random;
+import java.util.concurrent.ThreadLocalRandom;
 
 public class Rarity {
-
-    private Random random = new Random();
 
     private final int dropCount;
 
@@ -28,7 +26,7 @@ public class Rarity {
         List<ItemStack> drops = new ArrayList<>();
         for (int i = 0; i < dropCount; i++) {
             // Choose item
-            DropChoice dropChoice = this.dropChoices.get(random.nextInt(this.dropChoices.size()));
+            DropChoice dropChoice = this.dropChoices.get(ThreadLocalRandom.current().nextInt(this.dropChoices.size()));
             drops.addAll(dropChoice.getDrops());
         }
         return drops;
@@ -42,7 +40,4 @@ public class Rarity {
         return probability;
     }
 
-    public void setRandom(Random random) {
-        this.random = random;
-    }
 }

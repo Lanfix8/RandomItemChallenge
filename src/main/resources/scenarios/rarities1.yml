@@ -117,12 +117,7 @@ rarities:
     name: "§5Epic"
     probability: 0.05
     items:
-      - SPRUCE_PLANKS
-      - WARPED_PLANKS
-      - BIRCH_LOG
-      - STRIPPED_CRIMSON_HYPHAE
-      - OAK_WOOD
-      - bamboo_planks
+      - ANY.WOOD
       - TNT
       - TNT_MINECART
       - FLINT_AND_STEEL

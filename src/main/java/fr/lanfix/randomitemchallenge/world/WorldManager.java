@@ -7,6 +7,7 @@ import org.popcraft.chunky.api.ChunkyAPI;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Random;
+import java.util.concurrent.ThreadLocalRandom;
 import java.util.logging.Level;
 
 public class WorldManager {
@@ -63,7 +64,7 @@ public class WorldManager {
         boolean found = false;
         int x = 0;
         int z = 0;
-        Random random = new Random();
+        Random random = ThreadLocalRandom.current();
         while (!found) {
             if (world.getBlockAt(x, -64, z).getType().equals(Material.BEDROCK) &&
                     !biomesBlacklist.contains(world.getBiome(x, 63, z).toString())) {

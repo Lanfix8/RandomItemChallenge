@@ -7,21 +7,21 @@ import org.bukkit.entity.Player;
 import org.bukkit.inventory.ItemStack;
 
 import java.util.List;
+import java.util.concurrent.ThreadLocalRandom;
 
 public class RaritiesScenario extends Scenario {
 
     private final List<Rarity> rarities;
 
-    public RaritiesScenario(String name, String broadcastMessage, int dropInterval, int dropStacks, int dropCount, List<Rarity> rarities) {
+    public RaritiesScenario(String name, String broadcastMessage, int dropInterval, int dropCount, List<Rarity> rarities) {
         super(name, broadcastMessage, dropInterval, dropCount);
         this.rarities = rarities;
-        rarities.forEach(rarity -> rarity.setRandom(random));
     }
 
     @Override
     public void giveItems(List<Player> players) {
         // choose rarity
-        double randomDouble = random.nextDouble();
+        double randomDouble = ThreadLocalRandom.current().nextDouble();
         Rarity chosenRarity = null;
         for (Rarity rarity: rarities) {
             if (randomDouble <= rarity.getProbability()) {

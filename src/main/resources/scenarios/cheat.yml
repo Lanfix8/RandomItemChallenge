@@ -24,7 +24,6 @@ drop-count: 1
 items:
   - ANCIENT_DEBRIS
   - DIAMOND_BLOCK
-  - OAK_WOOD
   - CRAFTING_TABLE
   - TNT
   - FLINT_AND_STEEL
@@ -61,3 +60,4 @@ items:
   - WIND_CHARGE
   - VAULT
   - TRIAL_KEY
+  - ANY.WOOD

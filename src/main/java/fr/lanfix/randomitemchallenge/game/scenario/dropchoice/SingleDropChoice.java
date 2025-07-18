@@ -1,6 +1,5 @@
 package fr.lanfix.randomitemchallenge.game.scenario.dropchoice;
 
-import fr.lanfix.randomitemchallenge.game.scenario.Scenario;
 import org.bukkit.Material;
 import org.bukkit.inventory.ItemStack;
 
@@ -31,4 +30,5 @@ public class SingleDropChoice extends DropChoice {
         }
         return drops;
     }
+
 }

@@ -5,6 +5,7 @@ import org.bukkit.inventory.ItemStack;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.concurrent.ThreadLocalRandom;
 
 public class OneListScenario extends Scenario {
 
@@ -20,7 +21,7 @@ public class OneListScenario extends Scenario {
         List<ItemStack> drops = new ArrayList<>();
         for (int i = 0; i < this.dropCount; i++) {
             // Choose item
-            DropChoice dropChoice = this.dropChoices.get(random.nextInt(this.dropChoices.size()));
+            DropChoice dropChoice = this.dropChoices.get(ThreadLocalRandom.current().nextInt(this.dropChoices.size()));
             drops.addAll(dropChoice.getDrops());
         }
         return drops;

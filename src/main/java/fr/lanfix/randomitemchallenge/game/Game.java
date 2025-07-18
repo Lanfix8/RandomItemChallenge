@@ -4,6 +4,7 @@ import fr.lanfix.randomitemchallenge.RandomItemChallenge;
 import fr.lanfix.randomitemchallenge.api.event.RandomItemChallengeStartEvent;
 import fr.lanfix.randomitemchallenge.api.event.RandomItemChallengeStopEvent;
 import fr.lanfix.randomitemchallenge.api.event.RandomItemChallengeUpdateEvent;
+import fr.lanfix.randomitemchallenge.game.scenario.Configuration;
 import fr.lanfix.randomitemchallenge.game.scenario.Scenario;
 import fr.lanfix.randomitemchallenge.scoreboard.ScoreboardManager;
 import fr.lanfix.randomitemchallenge.utils.Text;
@@ -44,7 +45,7 @@ public class Game {
         this.plugin = plugin;
         this.text = text;
         this.sb = sb;
-        this.scenario = Scenario.defaultScenario;
+        this.scenario = Configuration.defaultScenario;
         this.worldManager = WorldManager.getWorldManager();
         this.running = false;
         this.players = new ArrayList<>();

@@ -25,17 +25,12 @@ items:
   - STONE
   - ANDESITE
   - GRASS_BLOCK
-  - SPRUCE_PLANKS
-  - WARPED_PLANKS
   - RED_SAND
   - DEEPSLATE_COAL_ORE
   - REDSTONE_ORE
   - ANCIENT_DEBRIS
   - DIAMOND_BLOCK
   - WEATHERED_CUT_COPPER
-  - BIRCH_LOG
-  - STRIPPED_CRIMSON_HYPHAE
-  - OAK_WOOD
   - ACACIA_LEAVES
   - SPONGE
   - GLASS
@@ -127,7 +122,6 @@ items:
   - POINTED_DRIPSTONE
   - netherite_upgrade_smithing_template
   - cherry_sapling
-  - bamboo_planks
   - SUSPICIOUS_SAND
   - BRUSH
   - WIND_CHARGE
@@ -137,3 +131,4 @@ items:
   - pale_moss_block
   - happy_ghast_spawn_egg
   - purple_harness
+  - ANY.WOOD

@@ -4,6 +4,7 @@ import fr.lanfix.randomitemchallenge.commands.RandomItemChallengeCommand;
 import fr.lanfix.randomitemchallenge.events.GameEvents;
 import fr.lanfix.randomitemchallenge.events.ItemEvents;
 import fr.lanfix.randomitemchallenge.game.Game;
+import fr.lanfix.randomitemchallenge.game.scenario.Configuration;
 import fr.lanfix.randomitemchallenge.game.scenario.Scenario;
 import fr.lanfix.randomitemchallenge.placeholderapi.RandomItemChallengeExpansion;
 import fr.lanfix.randomitemchallenge.scoreboard.NoScoreboard;
@@ -19,8 +20,11 @@ import org.bukkit.plugin.java.JavaPlugin;
 import java.io.File;
 import java.io.IOException;
 import java.io.InputStream;
+import java.net.URLDecoder;
+import java.nio.charset.StandardCharsets;
 import java.nio.file.Files;
 import java.util.List;
+import java.util.jar.JarFile;
 
 public final class RandomItemChallenge extends JavaPlugin {
 
@@ -47,31 +51,15 @@ public final class RandomItemChallenge extends JavaPlugin {
     }
 
     private void loadTexts() {
+        saveResource("texts.yml", false);
         File textsFile = new File(this.getDataFolder(), "texts.yml");
-        if (!textsFile.exists()) {
-            InputStream link = this.getResource("texts.yml");
-            assert link != null;
-            try {
-                Files.copy(link, textsFile.getAbsoluteFile().toPath());
-            } catch (IOException e) {
-                throw new RuntimeException(e);
-            }
-        }
         this.text = new Text(YamlConfiguration.loadConfiguration(textsFile));
     }
 
     private void loadGame() {
         // load scoreboard
+        saveResource("scoreboard.yml", false);
         File scoreboardFile = new File(this.getDataFolder(), "scoreboard.yml");
-        if (!scoreboardFile.exists()) {
-            InputStream link = this.getResource("scoreboard.yml");
-            assert link != null;
-            try {
-                Files.copy(link, scoreboardFile.getAbsoluteFile().toPath());
-            } catch (IOException e) {
-                throw new RuntimeException(e);
-            }
-        }
         YamlConfiguration sbConfig = YamlConfiguration.loadConfiguration(scoreboardFile);
         boolean customScoreboard = sbConfig.getBoolean("custom-scoreboard");
         boolean PAPIEnabled = Bukkit.getPluginManager().getPlugin("PlaceholderAPI") != null;
@@ -82,8 +70,8 @@ public final class RandomItemChallenge extends JavaPlugin {
                 getConfig().getInt("border", 500),
                 getConfig().getBoolean("use-separate-world", true));
         // load scenarios
-        Scenario.loadScenarios(this);
-        if (Scenario.defaultScenario == null) Bukkit.getLogger().warning("[RandomItemChallenge] Unknown default scenario, please edit the configuration.");
+        Configuration.loadScenarios(this);
+        if (Configuration.defaultScenario == null) Bukkit.getLogger().warning("[RandomItemChallenge] Unknown default scenario, please edit the configuration.");
         // load game
         this.game = new Game(this, text, sb);
         sb.setGame(game);
@@ -102,7 +90,7 @@ public final class RandomItemChallenge extends JavaPlugin {
         YamlConfiguration config = (YamlConfiguration) getConfig();
         String configVersion = config.getString("config-version", "1.2");
         if (configVersion.startsWith("1.")) {
-            Bukkit.getLogger().warning("[Random Item Challenge] Found old configuration file of older version (<2.0).");
+            Bukkit.getLogger().warning("[Random Item Challenge] Found old Configuration file of older version (<2.0).");
             Bukkit.getLogger().warning("Please delete the RandomItemChallenge folder if you want to play with the new version (it introduces many breaking changes).");
             Bukkit.getLogger().info("You can make a backup of your old config if you liked it, in order to put your options into your own scenario");
         }
@@ -110,24 +98,24 @@ public final class RandomItemChallenge extends JavaPlugin {
         // Update config (only after 2.0)
         File scenariosFolder = new File(this.getDataFolder(), "scenarios");
         if (!scenariosFolder.exists()) scenariosFolder.mkdirs();
-        saveDefaultScenarios();
+        saveDefaultResources();
     }
 
-    private void saveDefaultScenarios() {
-        final List<String> scenarios = List.of("allitems", "base", "noweapon", "cheat", "rarities1", "rarities2");
-        scenarios.forEach(scenario -> {
-            String subPath = "scenarios/" + scenario + ".yml";
-            File scenarioFile = new File(this.getDataFolder(), subPath);
-            if (!scenarioFile.exists()) {
-                InputStream link = this.getResource(subPath);
-                assert link != null;
-                try {
-                    Files.copy(link, scenarioFile.getAbsoluteFile().toPath());
-                } catch (IOException e) {
-                    throw new RuntimeException(e);
+    private void saveDefaultResources() {
+        // FIXME Spams console when trying to save everything
+        String jarPath = this.getClass().getProtectionDomain().getCodeSource().getLocation().getPath();
+        jarPath = URLDecoder.decode(jarPath, StandardCharsets.UTF_8);
+        try (JarFile jar = new JarFile(jarPath)) {
+            jar.stream().forEach(jarEntry -> {
+                String name = jarEntry.getName();
+                // We only save scenarios and custom drops
+                if (name.startsWith("scenarios/") || name.startsWith("custom_drops/")) {
+                    saveResource(name, false);
                 }
-            }
-        });
+            });
+        } catch (IOException e) {
+            throw new RuntimeException(e);
+        }
     }
 
     /*
@@ -138,6 +126,9 @@ public final class RandomItemChallenge extends JavaPlugin {
         Happy Ghast spawn egg and Purple harness (1.21.6)
     Moved wind charges to legendary
     Created base for ANY, CUSTOM drops
+    New 'ANY' drop type
+    Various optimizations
+    Random should be more random
      */
 
 }

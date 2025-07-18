@@ -2,6 +2,7 @@ package fr.lanfix.randomitemchallenge.commands;
 
 import fr.lanfix.randomitemchallenge.RandomItemChallenge;
 import fr.lanfix.randomitemchallenge.game.Game;
+import fr.lanfix.randomitemchallenge.game.scenario.Configuration;
 import fr.lanfix.randomitemchallenge.game.scenario.Scenario;
 import fr.lanfix.randomitemchallenge.utils.Text;
 import org.bukkit.Bukkit;
@@ -54,7 +55,7 @@ public class RandomItemChallengeCommand implements CommandExecutor, TabCompleter
             if (args.length == 1) {
                 game.start();
             } else {
-                game.start(Scenario.getOrDefault(args[1]));
+                game.start(Configuration.getScenarioOrDefault(args[1]));
             }
             return true;
         } 
@@ -77,7 +78,7 @@ public class RandomItemChallengeCommand implements CommandExecutor, TabCompleter
                     sender.sendMessage(ChatColor.RED + "/ric scenario set [scenario]");
                     return true;
                 }
-                Scenario scenario = Scenario.scenarios.get(args[2]);
+                Scenario scenario = Configuration.scenarios.get(args[2]);
                 if (scenario == null) {
                     sender.sendMessage(ChatColor.RED + "Please provide a valid scenario name.");
                     sender.sendMessage(ChatColor.RED + "/ric scenario set [scenario]");
@@ -93,14 +94,14 @@ public class RandomItemChallengeCommand implements CommandExecutor, TabCompleter
                     sender.sendMessage(ChatColor.RED + "/ric scenario setDefault [scenario]");
                     return true;
                 }
-                Scenario scenario = Scenario.scenarios.get(args[2]);
+                Scenario scenario = Configuration.scenarios.get(args[2]);
                 if (scenario == null) {
                     sender.sendMessage(ChatColor.RED + "Please provide a valid scenario name.");
                     sender.sendMessage(ChatColor.RED + "/ric scenario setDefault [scenario]");
                     return true;
                 }
                 game.setScenario(scenario);
-                Scenario.setDefaultScenario(scenario);
+                Configuration.setDefaultScenario(scenario);
                 plugin.getConfig().set("default-scenario", args[2]);
                 plugin.saveConfig();
                 sender.sendMessage(ChatColor.GREEN + "The default scenario has been successfully changed to '" + scenario.getName() + "' !");
@@ -130,14 +131,14 @@ public class RandomItemChallengeCommand implements CommandExecutor, TabCompleter
                             .filter(arg -> arg.toLowerCase().startsWith(args[1].toLowerCase())).toList();
                 }
                 if (args[0].equalsIgnoreCase("start")) {
-                    return Scenario.scenarios.keySet().stream()
+                    return Configuration.scenarios.keySet().stream()
                             .filter(arg -> arg.toLowerCase().startsWith(args[1].toLowerCase())).toList();
                 }
                 return List.of();
             }
             case 3 -> {
                 if (args[0].equalsIgnoreCase("scenario") && (args[1].equalsIgnoreCase("set") || args[1].equalsIgnoreCase("setDefault"))) {
-                    return Scenario.scenarios.keySet().stream()
+                    return Configuration.scenarios.keySet().stream()
                             .filter(arg -> arg.toLowerCase().startsWith(args[2].toLowerCase())).toList();
                 }
                 return List.of();
