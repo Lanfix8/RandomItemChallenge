@@ -34,7 +34,7 @@ items:
   - ACACIA_LEAVES
   - SPONGE
   - GLASS
-  - YELLOW_WOOL
+  - any.wool
   - WITHER_ROSE
   - TWISTING_VINES
   - BIG_DRIPLEAF

@@ -27,17 +27,12 @@ rarities:
     name: "§fCommon"
     probability: 0.15
     items:
-      - STONE
-      - ANDESITE
-      - GRASS_BLOCK
-      - RED_SAND
-      - DEEPSLATE_COAL_ORE
-      - REDSTONE_ORE
-      - WEATHERED_CUT_COPPER
+      - any.common.blocks
+      - any.common.blocks
       - ACACIA_LEAVES
       - SPONGE
       - GLASS
-      - YELLOW_WOOL
+      - any.wool
       - BIG_DRIPLEAF
       - MANGROVE_SLAB
       - MUD_BRICK_SLAB
@@ -52,7 +47,6 @@ rarities:
       - LIME_STAINED_GLASS
       - JUNGLE_DOOR
       - SPYGLASS
-      - GILDED_BLACKSTONE
       - cherry_sapling
       - resin_clump
   uncommon:
@@ -122,8 +116,7 @@ rarities:
       - TNT_MINECART
       - FLINT_AND_STEEL
       - NETHERITE_PICKAXE
-      - CHAINMAIL_CHESTPLATE
-      - IRON_LEGGINGS
+      - any.epic.armor
       - BOW
       - CROSSBOW
       - BUCKET
@@ -141,10 +134,7 @@ rarities:
       - ELYTRA
       - DIAMOND_SWORD
       - NETHERITE_SWORD
-      - DIAMOND_HELMET
-      - DIAMOND_LEGGINGS
-      - NETHERITE_CHESTPLATE
-      - NETHERITE_BOOTS
+      - any.legendary.armor
       - GOLDEN_APPLE
       - ENDER_PEARL
       - SHIELD

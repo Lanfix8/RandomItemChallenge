@@ -5,7 +5,6 @@ import fr.lanfix.randomitemchallenge.events.GameEvents;
 import fr.lanfix.randomitemchallenge.events.ItemEvents;
 import fr.lanfix.randomitemchallenge.game.Game;
 import fr.lanfix.randomitemchallenge.game.scenario.Configuration;
-import fr.lanfix.randomitemchallenge.game.scenario.Scenario;
 import fr.lanfix.randomitemchallenge.placeholderapi.RandomItemChallengeExpansion;
 import fr.lanfix.randomitemchallenge.scoreboard.NoScoreboard;
 import fr.lanfix.randomitemchallenge.scoreboard.ScoreboardManager;
@@ -19,11 +18,8 @@ import org.bukkit.plugin.java.JavaPlugin;
 
 import java.io.File;
 import java.io.IOException;
-import java.io.InputStream;
 import java.net.URLDecoder;
 import java.nio.charset.StandardCharsets;
-import java.nio.file.Files;
-import java.util.List;
 import java.util.jar.JarFile;
 
 public final class RandomItemChallenge extends JavaPlugin {
@@ -94,7 +90,7 @@ public final class RandomItemChallenge extends JavaPlugin {
             Bukkit.getLogger().warning("Please delete the RandomItemChallenge folder if you want to play with the new version (it introduces many breaking changes).");
             Bukkit.getLogger().info("You can make a backup of your old config if you liked it, in order to put your options into your own scenario");
         }
-        File configFile = new File(getDataFolder(), "config.yml");
+        // File configFile = new File(getDataFolder(), "config.yml");
         // Update config (only after 2.0)
         File scenariosFolder = new File(this.getDataFolder(), "scenarios");
         if (!scenariosFolder.exists()) scenariosFolder.mkdirs();
@@ -102,7 +98,6 @@ public final class RandomItemChallenge extends JavaPlugin {
     }
 
     private void saveDefaultResources() {
-        // FIXME Spams console when trying to save everything
         String jarPath = this.getClass().getProtectionDomain().getCodeSource().getLocation().getPath();
         jarPath = URLDecoder.decode(jarPath, StandardCharsets.UTF_8);
         try (JarFile jar = new JarFile(jarPath)) {
@@ -110,7 +105,10 @@ public final class RandomItemChallenge extends JavaPlugin {
                 String name = jarEntry.getName();
                 // We only save scenarios and custom drops
                 if (name.startsWith("scenarios/") || name.startsWith("custom_drops/")) {
-                    saveResource(name, false);
+                    File outFile = new File(this.getDataFolder(), name);
+                    if (!outFile.exists()) {
+                        saveResource(name, false);
+                    }
                 }
             });
         } catch (IOException e) {
@@ -120,13 +118,13 @@ public final class RandomItemChallenge extends JavaPlugin {
 
     /*
     Added rarities2 scenario (new default scenario)
-    Added :
+    New items from recent updates :
         Vault and trial keys (1.21)
         Resin Clump and Pale moss (1.21.4)
         Happy Ghast spawn egg and Purple harness (1.21.6)
     Moved wind charges to legendary
     Created base for ANY, CUSTOM drops
-    New 'ANY' drop type
+    New 'ANY' drop type : started using it in the default config
     Various optimizations
     Random should be more random
      */
