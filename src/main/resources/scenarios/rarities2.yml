@@ -150,6 +150,8 @@ rarities:
       - BLAZE_SPAWN_EGG
       - CREEPER_SPAWN_EGG
       - TRIDENT
+      - custom.ultimate.armor
+      - custom.ultimate.sword
   godly:
     name: "§n§0§l§eGodly"
     probability: 0.01
@@ -158,3 +160,6 @@ rarities:
       - ENCHANTED_GOLDEN_APPLE
       - TOTEM_OF_UNDYING
       - MACE
+      - CUSTOM.vault_and_keys
+      - custom.godly.armor
+      - custom.godly.sword

@@ -1,0 +1,9 @@
+items:
+  - material: netherite_sword
+    enchantments:
+      sharpness: 10
+      unbreaking: 10
+      fire_aspect: 3
+    name: "§n§0§l§eGod Sword"
+    lore:
+      - "With Great Power Comes Great Responsibilities"

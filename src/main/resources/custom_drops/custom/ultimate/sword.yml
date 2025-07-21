@@ -1,0 +1,6 @@
+items:
+  - material: netherite_sword
+    enchantments:
+      sharpness: 4
+      unbreaking: 3
+    name: "§4§lUltimate Sword"

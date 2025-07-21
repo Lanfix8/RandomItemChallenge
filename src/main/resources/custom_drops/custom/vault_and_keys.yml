@@ -1,0 +1,5 @@
+items:
+  - material: vault
+    stacks: 2
+  - material: trial_key
+    stacks: 3

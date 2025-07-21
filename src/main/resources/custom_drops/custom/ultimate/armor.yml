@@ -1,0 +1,17 @@
+items:
+  - material: diamond_helmet
+    enchantments:
+      protection: 2
+      unbreaking: 5
+  - material: diamond_chestplate
+    enchantments:
+      protection: 2
+      unbreaking: 5
+  - material: diamond_leggings
+    enchantments:
+      protection: 2
+      unbreaking: 5
+  - material: diamond_boots
+    enchantments:
+      protection: 2
+      unbreaking: 5

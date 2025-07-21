@@ -117,16 +117,8 @@ public final class RandomItemChallenge extends JavaPlugin {
     }
 
     /*
-    Added rarities2 scenario (new default scenario)
-    New items from recent updates :
-        Vault and trial keys (1.21)
-        Resin Clump and Pale moss (1.21.4)
-        Happy Ghast spawn egg and Purple harness (1.21.6)
-    Moved wind charges to legendary
-    Created base for ANY, CUSTOM drops
-    New 'ANY' drop type : started using it in the default config
-    Various optimizations
-    Random should be more random
+    New custom drop type, and new custom drops
+    Documentation on how to create custom drops will arrive on full release
      */
 
 }

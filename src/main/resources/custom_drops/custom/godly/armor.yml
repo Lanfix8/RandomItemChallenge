@@ -1,0 +1,17 @@
+items:
+  - material: netherite_helmet
+    enchantments:
+      protection: 5
+      unbreaking: 10
+  - material: netherite_chestplate
+    enchantments:
+      protection: 5
+      unbreaking: 10
+  - material: netherite_leggings
+    enchantments:
+      protection: 5
+      unbreaking: 10
+  - material: netherite_boots
+    enchantments:
+      protection: 5
+      unbreaking: 10
