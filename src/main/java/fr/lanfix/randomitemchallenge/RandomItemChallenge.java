@@ -117,8 +117,11 @@ public final class RandomItemChallenge extends JavaPlugin {
     }
 
     /*
-    New custom drop type, and new custom drops
-    Documentation on how to create custom drops will arrive on full release
+    Added a few custom drops
      */
 
+
+    /* TODO
+
+     */
 }

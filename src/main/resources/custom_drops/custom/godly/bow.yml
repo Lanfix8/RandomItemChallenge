@@ -1,0 +1,11 @@
+items:
+  - material: bow
+    name: "§n§0§l§eGod Bow"
+    enchantments:
+      power: 15
+      unbreaking: 6
+      punch: 3
+      infinity: 1
+  - material: arrow
+    arrow_effects:
+      - INSTANT_DAMAGE

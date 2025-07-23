@@ -1,0 +1,6 @@
+items:
+  - material: tnt
+    stacks: 3
+  - material: flint_and_steel
+    enchantments:
+      unbreaking: 10

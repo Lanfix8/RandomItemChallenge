@@ -1,0 +1,6 @@
+items:
+  - material: elytra
+    enchantments:
+      unbreaking: 10
+  - material: FIREWORK_ROCKET
+    stacks: 5

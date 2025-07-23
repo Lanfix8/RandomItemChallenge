@@ -1,0 +1,7 @@
+items:
+  - material: oak_log
+    stacks: 2
+  - material: iron_ingot
+    stacks: 2
+  - material: diamond
+    stacks: 2

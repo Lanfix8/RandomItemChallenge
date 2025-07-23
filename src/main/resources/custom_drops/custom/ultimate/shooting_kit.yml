@@ -1,0 +1,6 @@
+items:
+  - material: bow
+  - material: crossbow
+    stacks: 2
+  - material: arrow
+    stacks: 4

@@ -1,0 +1,5 @@
+items:
+  - material: rail
+  - material: powered_rail
+  - material: tnt_minecart
+    stacks: 10

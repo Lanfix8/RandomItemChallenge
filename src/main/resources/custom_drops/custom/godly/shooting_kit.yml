@@ -1,0 +1,14 @@
+items:
+  - material: bow
+    enchantments:
+      power: 6
+      unbreaking: 3
+      punch: 2
+  - material: crossbow
+    stacks: 3
+    enchantments:
+      multishot: 1
+      quick_charge: 2
+      unbreaking: 3
+  - material: arrow
+    stacks: 4

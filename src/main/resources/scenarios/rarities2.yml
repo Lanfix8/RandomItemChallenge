@@ -141,6 +141,9 @@ rarities:
       - VAULT
       - TRIAL_KEY
       - WIND_CHARGE
+      - WIND_CHARGE
+      - custom.legendary.explosive_kit
+      - custom.enchanting_kit
   ultimate:
     name: "§4§lUltimate"
     probability: 0.05
@@ -152,6 +155,9 @@ rarities:
       - TRIDENT
       - custom.ultimate.armor
       - custom.ultimate.sword
+      - custom.flying_kit
+      - custom.ultimate.explosive_kit
+      - custom.ultimate.shooting_kit
   godly:
     name: "§n§0§l§eGodly"
     probability: 0.01
@@ -163,3 +169,7 @@ rarities:
       - CUSTOM.vault_and_keys
       - custom.godly.armor
       - custom.godly.sword
+      - custom.godly.shooting_kit
+      - custom.godly.bow
+      - custom.godly.crossbow
+      - custom.crafting_kit

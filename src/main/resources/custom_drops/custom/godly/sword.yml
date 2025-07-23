@@ -1,7 +1,7 @@
 items:
   - material: netherite_sword
     enchantments:
-      sharpness: 10
+      sharpness: 15
       unbreaking: 10
       fire_aspect: 3
     name: "§n§0§l§eGod Sword"

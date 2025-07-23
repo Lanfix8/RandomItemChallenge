@@ -1,0 +1,9 @@
+items:
+  - material: enchanting_table
+  - material: anvil
+  - material: book
+    stacks: 1
+  - material: experience_bottle
+    stacks: 4
+  - material: lapis_lazuli
+    stacks: 2

@@ -1,13 +1,15 @@
 package fr.lanfix.randomitemchallenge.game.scenario.dropchoice;
 
 import fr.lanfix.randomitemchallenge.RandomItemChallenge;
-import org.bukkit.Material;
-import org.bukkit.NamespacedKey;
-import org.bukkit.Registry;
+import org.bukkit.*;
 import org.bukkit.configuration.file.YamlConfiguration;
 import org.bukkit.enchantments.Enchantment;
 import org.bukkit.inventory.ItemStack;
+import org.bukkit.inventory.meta.FireworkMeta;
 import org.bukkit.inventory.meta.ItemMeta;
+import org.bukkit.inventory.meta.PotionMeta;
+import org.bukkit.potion.PotionEffect;
+import org.bukkit.potion.PotionEffectType;
 
 import java.io.File;
 import java.util.ArrayList;
@@ -42,6 +44,22 @@ public class CustomDropChoice extends DropChoice {
             }
             if (map.containsKey("lore")) {
                 itemMeta.setLore((List<String>) map.get("lore"));
+            }
+            if (material.equals(Material.FIREWORK_ROCKET) &&
+                    map.containsKey("explosive_rockets") && (boolean) map.get("explosive_rockets")) {
+                ((FireworkMeta) itemMeta).addEffect(FireworkEffect.builder()
+                        .with(FireworkEffect.Type.STAR)
+                        .withColor(Color.ORANGE, Color.RED, Color.YELLOW)
+                        .build());
+            }
+            if (material.equals(Material.ARROW) && map.containsKey("arrow_effects")) {
+                ((List<String>) map.get("arrow_effects")).forEach(effect -> {
+                    PotionEffectType effectType = Registry.EFFECT.get(NamespacedKey.minecraft(effect));
+                    if (effectType != null) {
+                        ((PotionMeta) itemMeta).addCustomEffect(
+                                new PotionEffect(effectType, 5, 0), true);
+                    }
+                });
             }
             itemStack.setItemMeta(itemMeta);
             for (int i = 0; i < stacks; i++) {
