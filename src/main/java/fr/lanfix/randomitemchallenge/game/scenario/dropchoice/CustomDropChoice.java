@@ -7,9 +7,6 @@ import org.bukkit.enchantments.Enchantment;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.meta.FireworkMeta;
 import org.bukkit.inventory.meta.ItemMeta;
-import org.bukkit.inventory.meta.PotionMeta;
-import org.bukkit.potion.PotionEffect;
-import org.bukkit.potion.PotionEffectType;
 
 import java.io.File;
 import java.util.ArrayList;
@@ -51,15 +48,6 @@ public class CustomDropChoice extends DropChoice {
                         .with(FireworkEffect.Type.STAR)
                         .withColor(Color.ORANGE, Color.RED, Color.YELLOW)
                         .build());
-            }
-            if (material.equals(Material.ARROW) && map.containsKey("arrow_effects")) {
-                ((List<String>) map.get("arrow_effects")).forEach(effect -> {
-                    PotionEffectType effectType = Registry.EFFECT.get(NamespacedKey.minecraft(effect));
-                    if (effectType != null) {
-                        ((PotionMeta) itemMeta).addCustomEffect(
-                                new PotionEffect(effectType, 5, 0), true);
-                    }
-                });
             }
             itemStack.setItemMeta(itemMeta);
             for (int i = 0; i < stacks; i++) {

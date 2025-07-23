@@ -6,6 +6,5 @@ items:
       unbreaking: 6
       punch: 3
       infinity: 1
+      flame: 1
   - material: arrow
-    arrow_effects:
-      - INSTANT_DAMAGE

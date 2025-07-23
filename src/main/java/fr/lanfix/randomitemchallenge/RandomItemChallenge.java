@@ -117,7 +117,7 @@ public final class RandomItemChallenge extends JavaPlugin {
     }
 
     /*
-    Added a few custom drops
+
      */
 
 
