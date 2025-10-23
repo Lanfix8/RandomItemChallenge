@@ -99,7 +99,6 @@ rarities:
       - TURTLE_HELMET
       - ARROW
       - GOLDEN_PICKAXE
-      - DIAMOND_SHOVEL
       - DIAMOND_HOE
       - LEATHER_HELMET
       - GOLDEN_BOOTS
@@ -127,6 +126,7 @@ rarities:
       - END_CRYSTAL
       - POINTED_DRIPSTONE
       - happy_ghast_spawn_egg
+      - DIAMOND_SHOVEL
   legendary:
     name: "§6Legendary"
     probability: 0.025
@@ -140,7 +140,6 @@ rarities:
       - SHIELD
       - VAULT
       - TRIAL_KEY
-      - WIND_CHARGE
       - custom.legendary.explosive_kit
       - custom.enchanting_kit
   ultimate:
@@ -157,6 +156,7 @@ rarities:
       - custom.flying_kit
       - custom.ultimate.explosive_kit
       - custom.ultimate.shooting_kit
+      - WIND_CHARGE
   godly:
     name: "&n&0&l&eGodly"
     probability: 0.001
