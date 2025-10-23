@@ -43,12 +43,13 @@ rarities:
       - LIGHT_GRAY_GLAZED_TERRACOTTA
       - MAGENTA_CONCRETE
       - QUARTZ_STAIRS
-      - CYAN_TERRACOTTA
+      - any.terracotta
       - LIME_STAINED_GLASS
       - JUNGLE_DOOR
       - SPYGLASS
       - cherry_sapling
       - resin_clump
+      - BRUSH
   uncommon:
     name: "§aUncommon"
     probability: 0.20
@@ -82,7 +83,6 @@ rarities:
       - SMITHING_TABLE
       - netherite_upgrade_smithing_template
       - SUSPICIOUS_SAND
-      - BRUSH
       - pale_moss_block
       - purple_harness
   rare:
