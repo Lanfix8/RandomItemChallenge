@@ -98,14 +98,14 @@ rarities:
       - OAK_BOAT
       - TURTLE_HELMET
       - ARROW
-      - GOLDEN_PICKAXE
-      - DIAMOND_HOE
       - LEATHER_HELMET
       - GOLDEN_BOOTS
       - RED_BED
       - EXPERIENCE_BOTTLE
       - FIREWORK_ROCKET
       - CHORUS_FRUIT
+      - any.rare.weapon
+      - any.rare.weapon
   epic:
     name: "§5Epic"
     probability: 0.24
@@ -114,7 +114,7 @@ rarities:
       - TNT
       - TNT_MINECART
       - FLINT_AND_STEEL
-      - NETHERITE_PICKAXE
+      - any.epic.armor
       - any.epic.armor
       - BOW
       - CROSSBOW
@@ -126,7 +126,8 @@ rarities:
       - END_CRYSTAL
       - POINTED_DRIPSTONE
       - happy_ghast_spawn_egg
-      - DIAMOND_SHOVEL
+      - any.epic.weapon
+      - any.epic.weapon
   legendary:
     name: "§6Legendary"
     probability: 0.1
