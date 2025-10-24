@@ -26,14 +26,7 @@ public class CustomDropChoice extends DropChoice {
             Material material = Material.valueOf(((String) map.get("material")).toUpperCase());
             int stacks = map.containsKey("stacks") ? (int) map.get("stacks") : 1;
             ItemStack itemStack = new ItemStack(material, material.getMaxStackSize());
-            if (map.containsKey("enchantments")) {
-                Map<String, Integer> enchantments = (Map<String, Integer>) map.get("enchantments");
-                enchantments.forEach((enchantmentName, level) -> {
-                    Enchantment enchantment = Registry.ENCHANTMENT.get(NamespacedKey.minecraft(enchantmentName));
-                    if (enchantment == null) return;
-                    itemStack.addUnsafeEnchantment(enchantment, level);
-                });
-            }
+            // Name and Lore
             ItemMeta itemMeta = itemStack.getItemMeta();
             assert itemMeta != null;
             if (map.containsKey("name")) {
@@ -42,6 +35,16 @@ public class CustomDropChoice extends DropChoice {
             if (map.containsKey("lore")) {
                 itemMeta.setLore((List<String>) map.get("lore"));
             }
+            // Enchantments
+            if (map.containsKey("enchantments")) {
+                Map<String, Integer> enchantments = (Map<String, Integer>) map.get("enchantments");
+                enchantments.forEach((enchantmentName, level) -> {
+                    Enchantment enchantment = Registry.ENCHANTMENT.get(NamespacedKey.minecraft(enchantmentName));
+                    if (enchantment == null) return;
+                    itemStack.addUnsafeEnchantment(enchantment, level);
+                });
+            }
+            // Explosive Rockets
             if (material.equals(Material.FIREWORK_ROCKET) &&
                     map.containsKey("explosive_rockets") && (boolean) map.get("explosive_rockets")) {
                 ((FireworkMeta) itemMeta).addEffect(FireworkEffect.builder()
