@@ -1,0 +1,7 @@
+items:
+  - material: diamond_spear
+    enchantments:
+      sharpness: 3
+      unbreaking: 3
+      lunge: 1
+    name: "§4§lUltimate Spear"

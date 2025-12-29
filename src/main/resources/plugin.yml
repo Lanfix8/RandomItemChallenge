@@ -2,7 +2,7 @@ name: RandomItemChallenge
 author: Lanfix
 version: '${project.version}'
 main: fr.lanfix.randomitemchallenge.RandomItemChallenge
-api-version: 1.21.9
+api-version: 1.21.11
 commands:
   randomitemchallenge:
     aliases:

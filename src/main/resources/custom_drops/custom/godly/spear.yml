@@ -1,0 +1,8 @@
+items:
+  - material: netherite_spear
+    enchantments:
+      sharpness: 5
+      unbreaking: 10
+      lunge: 3
+      fire_aspect: 2
+    name: "§n§0§l§eGod Spear"

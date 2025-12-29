@@ -158,6 +158,7 @@ rarities:
       - custom.ultimate.explosive_kit
       - custom.ultimate.shooting_kit
       - WIND_CHARGE
+      - custom.ultimate.spear
   godly:
     name: "&n&0&l&eGodly"
     probability: 0.001
@@ -174,3 +175,4 @@ rarities:
       - custom.godly.crossbow
       - custom.crafting_kit
       - custom.crystal_pvp_kit
+      - custom.godly.spear
