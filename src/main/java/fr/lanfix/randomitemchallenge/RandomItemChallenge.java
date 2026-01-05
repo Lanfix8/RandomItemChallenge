@@ -135,19 +135,7 @@ public final class RandomItemChallenge extends JavaPlugin {
     }
 
     /*
-    New drops
-    - Stone spear (Epic)
-    - Ultimate Spear
-    - Godly Spear
-    Updated parts of the code for 1.21.11
-    There is no time limit anymore
-    Game now support drop periods in seconds
-    Changed default custom scoreboard
-    Fixed typo in texts
-    Reload subcommand
-    Added Scenario to PAPI
-    Added Scenario line in scoreboard
-    Added Next Drop Timer
+
      */
 
 }

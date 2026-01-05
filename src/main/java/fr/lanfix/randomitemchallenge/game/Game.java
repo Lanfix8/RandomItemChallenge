@@ -140,7 +140,7 @@ public class Game {
             }
         }
         // Send Next Drop Timer
-        int secondsUntilDrop = (- (sec + 60 * min + 3600 * hours)) % scenario.getDropInterval();
+        int secondsUntilDrop = scenario.getDropInterval() - (sec + 60 * min + 3600 * hours) % scenario.getDropInterval();
         if (secondsUntilDrop <= 15) {
             for (Player player : players) {
                 player.spigot().sendMessage(ChatMessageType.ACTION_BAR, new TextComponent("Item Drop in " + secondsUntilDrop + " seconds !"));
@@ -222,6 +222,9 @@ public class Game {
     public String getTime() {
         if (sec < 0) {
             return "Grace Period";
+        }
+        if (hours == 0) {
+            return (min < 10 ? "0" : "") + min + ":" + (sec < 10 ? "0" : "") + sec;
         }
         return hours + ":" + (min < 10 ? "0" : "") + min + ":" + (sec < 10 ? "0" : "") + sec;
     }
