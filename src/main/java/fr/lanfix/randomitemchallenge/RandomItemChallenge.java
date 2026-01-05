@@ -121,10 +121,7 @@ public final class RandomItemChallenge extends JavaPlugin {
     - Stone spear (Epic)
     - Ultimate Spear
     - Godly Spear
+    Updated parts of the code for 1.21.11
      */
 
-
-    /* TODO
-
-     */
 }
