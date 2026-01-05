@@ -16,11 +16,6 @@ biomes-blacklist:
 # size of the border (better below 3000 otherwise games would overlap)
 border: 500
 
-# Game duration (maximum time)
-game-duration:
-  hours: 2
-  minutes: 0
-
 default-scenario: rarities2
 
-config-version: 2.0 # Don't touch this
+config-version: 2.2 # Don't touch this

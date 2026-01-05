@@ -90,8 +90,20 @@ public final class RandomItemChallenge extends JavaPlugin {
             Bukkit.getLogger().warning("Please delete the RandomItemChallenge folder if you want to play with the new version (it introduces many breaking changes).");
             Bukkit.getLogger().info("You can make a backup of your old config if you liked it, in order to put your options into your own scenario");
         }
-        // File configFile = new File(getDataFolder(), "config.yml");
         // Update config (only after 2.0)
+        if (configVersion.startsWith("2.0")) {
+            Bukkit.getLogger().warning("If you want to benefit from recent changes in default scenarios, please remove them from the plugin's folder so the new ones can be extracted");
+            Bukkit.getLogger().warning("Beware that in your old config, the 'game-duration' section is no longer a thing. There is no time limit in the game anymore");
+            configVersion = "2.2";
+        }
+        config.set("config-version", configVersion);
+        File configFile = new File(getDataFolder(), "config.yml");
+        try {
+            config.save(configFile);
+        } catch (IOException e) {
+            throw new RuntimeException(e);
+        }
+        // Save default resources
         File scenariosFolder = new File(this.getDataFolder(), "scenarios");
         if (!scenariosFolder.exists()) scenariosFolder.mkdirs();
         saveDefaultResources();
@@ -122,6 +134,10 @@ public final class RandomItemChallenge extends JavaPlugin {
     - Ultimate Spear
     - Godly Spear
     Updated parts of the code for 1.21.11
+    There is no time limit anymore
+    Game now support drop periods in seconds
+    Changed default custom scoreboard
+    Fixed typo in texts
      */
 
 }

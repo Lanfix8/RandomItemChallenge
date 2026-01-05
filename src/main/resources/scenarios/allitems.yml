@@ -15,7 +15,7 @@ type: allItems
 
 # number of stacks given
 stacks: 9
-# time between the drops (minutes)
-drop-interval: 2
+# time between the drops (seconds)
+drop-interval: 120
 # number of drops (different items)
 drop-count: 1

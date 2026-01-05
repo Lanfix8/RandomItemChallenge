@@ -34,9 +34,6 @@ public class Game {
     private final List<Player> spectators;
     private String leaderboard;
 
-    private final int durationHours;
-    private final int durationMin;
-
     private int hours;
     private int min;
     private int sec;
@@ -50,8 +47,6 @@ public class Game {
         this.running = false;
         this.players = new ArrayList<>();
         this.spectators = new ArrayList<>();
-        durationHours = plugin.getConfig().getInt("game-duration.hours", 2);
-        durationMin = plugin.getConfig().getInt("game-duration.minutes", 0);
     }
 
     public void start(Scenario scenario) {
@@ -82,9 +77,9 @@ public class Game {
             sb.setGame(this);
             sb.newScoreboard(player);
         }
-        this.hours = durationHours;
-        this.min = durationMin;
-        this.sec = 15;
+        this.hours = 0;
+        this.min = 0;
+        this.sec = -15;
         this.running = true;
         this.leaderboard = "";
         this.gameLoop = new BukkitRunnable() {
@@ -113,7 +108,7 @@ public class Game {
         spectators.forEach(player -> player.getScoreboard().clearSlot(DisplaySlot.SIDEBAR));
         spectators.clear();
         this.running = false;
-        Bukkit.broadcastMessage(text.getBroadcast("end").replace("$TIME", this.getTimeSinceStart()));
+        Bukkit.broadcastMessage(text.getBroadcast("end").replace("$TIME", this.getTimeText()));
         Bukkit.broadcastMessage(ChatColor.BLUE + String.valueOf(ChatColor.UNDERLINE) + "Leaderboard :" + this.leaderboard + ChatColor.RESET);
         new BukkitRunnable() {
             @Override
@@ -125,29 +120,18 @@ public class Game {
 
     private void newGameSecond() {
         Bukkit.getPluginManager().callEvent(new RandomItemChallengeUpdateEvent(this));
-        this.sec--;
-        if (this.sec < 0) {
-            // TODO Change this calculations because it is not the proper way
-            if (this.min % scenario.getDropInterval() == 0) { // Drop items every x min
+        this.sec++;
+        if (this.sec == 60) {
+            if ((sec + 60 * min + 3600 * hours) % scenario.getDropInterval() == 0) { // Drop items every x seconds
                 scenario.giveItems(players);
             }
-            this.sec += 60;
-            this.min--;
-            if (this.min == -1) {
-                this.min += 60;
-                this.hours--;
-                if (this.hours == -1) { // when time runs out
-                    Bukkit.broadcastMessage(text.getBroadcast("end-by-time"));
-                    for (Player player : this.players) {
-                        this.leaderboard = "\n%s#1) %s: Still alive%s"
-                                .formatted(ChatColor.GOLD, player.getName(), this.leaderboard);
-                    }
-                    this.stop();
-                    return;
-                }
+            this.sec -= 60;
+            this.min++;
+            if (this.min == 60) {
+                this.min -= 60;
+                this.hours++;
             }
-            if ((this.hours == durationHours - 1 && this.durationMin == 0) ||
-                    (this.hours == durationHours && this.min == durationMin - 1)) { // when grace period is over
+            if (this.hours == 0 &&  this.min == 0 && this.sec == 0) { // when grace period is over
                 this.worldManager.endGracePeriod();
             }
         }
@@ -179,11 +163,11 @@ public class Game {
                     .replace("$PLAYER", player.getName())
                     .replace("$POS", pos)
             );
-            player.sendMessage(text.getMessage("time-survived").replace("$TIME", this.getTimeSinceStart()));
+            player.sendMessage(text.getMessage("time-survived").replace("$TIME", this.getTimeText()));
             this.leaderboard = "\n" + ChatColor.GREEN + "#$POS) $PLAYER: $TIME"
                     .replace("$POS", pos)
                     .replace("$PLAYER", player.getName())
-                    .replace("$TIME", this.getTimeSinceStart())
+                    .replace("$TIME", this.getTimeText())
                     + this.leaderboard;
             this.players.remove(player);
             this.spectators.add(player);
@@ -210,13 +194,16 @@ public class Game {
         return players.size();
     }
 
-    public String getTimeSinceStart() {
+    public String getTimeText() {
+        if (hours == 0) {
+            return this.min + " minutes.";
+        }
         return "$HOURS hours and $MIN minutes."
-                .replace("$HOURS", String.valueOf(this.min == 0 ? 2 - this.hours: 1 - this.hours))
-                .replace("$MIN", String.valueOf(this.min == 0 ? 0: 60 - this.min));
+                .replace("$HOURS", String.valueOf(this.hours))
+                .replace("$MIN", String.valueOf(this.min));
     }
 
-    public String getTimeRemaining() {
+    public String getTime() {
         return hours + ":" + (min < 10 ? "0" : "") + min + ":" + (sec < 10 ? "0" : "") + sec;
     }
 

@@ -37,7 +37,7 @@ public class ScoreboardManager {
             if (PAPIEnabled) {
                 text = PlaceholderAPI.setPlaceholders(player, text);
             } else {
-                text = text.replace("%randomitemchallenge_time%", game.getTimeRemaining());
+                text = text.replace("%randomitemchallenge_time%", game.getTime());
                 text = text.replace("%randomitemchallenge_players%", String.valueOf(game.getPlayersRemaining()));
             }
             String name = ChatColor.values()[i].toString() + ChatColor.RESET;
@@ -60,7 +60,7 @@ public class ScoreboardManager {
             if (PAPIEnabled) {
                 text = PlaceholderAPI.setPlaceholders(player, text);
             } else {
-                text = text.replace("%randomitemchallenge_time%", game.getTimeRemaining());
+                text = text.replace("%randomitemchallenge_time%", game.getTime());
                 text = text.replace("%randomitemchallenge_players%", String.valueOf(game.getPlayersRemaining()));
             }
             String name = ChatColor.values()[i].toString() + ChatColor.RESET;

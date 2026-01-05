@@ -31,7 +31,7 @@ public class RandomItemChallengeExpansion extends PlaceholderExpansion {
     @Override
     public String onRequest(OfflinePlayer player, String params) {
         if (params.equalsIgnoreCase("time")) {
-            return game.getTimeRemaining();
+            return game.getTime();
         }
         else if (params.equalsIgnoreCase("players")) {
             return String.valueOf(game.getPlayersRemaining());
