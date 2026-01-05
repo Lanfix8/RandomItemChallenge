@@ -4,5 +4,6 @@ custom-scoreboard: true
 # PAPI is available with this scoreboard
 scoreboard:
   - "§dTime: %randomitemchallenge_time%"
+  - "§dScenario: %randomitemchallenge_scenario%"
   - ""
   - "§cPlayers remaining: %randomitemchallenge_players%"

@@ -25,7 +25,7 @@ public class RandomItemChallengeExpansion extends PlaceholderExpansion {
 
     @Override
     public @NotNull String getVersion() {
-        return "1.0.0";
+        return "1.1.0";
     }
 
     @Override
@@ -36,7 +36,9 @@ public class RandomItemChallengeExpansion extends PlaceholderExpansion {
         else if (params.equalsIgnoreCase("players")) {
             return String.valueOf(game.getPlayersRemaining());
         }
-        // TODO add scenario name in PAPI and add line in the default scoreboard for the scenario
+        else if (params.equalsIgnoreCase("scenario")) {
+            return game.getScenario().getName();
+        }
         return null;
     }
 }

@@ -39,6 +39,7 @@ public class ScoreboardManager {
             } else {
                 text = text.replace("%randomitemchallenge_time%", game.getTime());
                 text = text.replace("%randomitemchallenge_players%", String.valueOf(game.getPlayersRemaining()));
+                text = text.replace("%randomitemchallenge_scenario%", game.getScenario().getName());
             }
             String name = ChatColor.values()[i].toString() + ChatColor.RESET;
             Team team = scoreboard.getTeam(name);
@@ -62,6 +63,7 @@ public class ScoreboardManager {
             } else {
                 text = text.replace("%randomitemchallenge_time%", game.getTime());
                 text = text.replace("%randomitemchallenge_players%", String.valueOf(game.getPlayersRemaining()));
+                text = text.replace("%randomitemchallenge_scenario%", game.getScenario().getName());
             }
             String name = ChatColor.values()[i].toString() + ChatColor.RESET;
             if (scoreboard.getTeam(name) == null) scoreboard.registerNewTeam(name);

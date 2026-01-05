@@ -145,6 +145,8 @@ public final class RandomItemChallenge extends JavaPlugin {
     Changed default custom scoreboard
     Fixed typo in texts
     Reload subcommand
+    Added Scenario to PAPI
+    Added Scenario line in scoreboard
      */
 
 }

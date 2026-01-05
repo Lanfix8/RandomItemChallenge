@@ -218,4 +218,8 @@ public class Game {
         this.scenario = scenario;
     }
 
+    public Scenario getScenario() {
+        return scenario;
+    }
+
 }
