@@ -147,6 +147,7 @@ public final class RandomItemChallenge extends JavaPlugin {
     Reload subcommand
     Added Scenario to PAPI
     Added Scenario line in scoreboard
+    Added Next Drop Timer
      */
 
 }

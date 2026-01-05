@@ -9,7 +9,12 @@ import fr.lanfix.randomitemchallenge.game.scenario.Scenario;
 import fr.lanfix.randomitemchallenge.scoreboard.ScoreboardManager;
 import fr.lanfix.randomitemchallenge.utils.Text;
 import fr.lanfix.randomitemchallenge.world.WorldManager;
-import org.bukkit.*;
+import net.md_5.bungee.api.ChatMessageType;
+import net.md_5.bungee.api.chat.TextComponent;
+import org.bukkit.Bukkit;
+import org.bukkit.ChatColor;
+import org.bukkit.GameMode;
+import org.bukkit.Location;
 import org.bukkit.entity.Player;
 import org.bukkit.scheduler.BukkitRunnable;
 import org.bukkit.scoreboard.DisplaySlot;
@@ -132,6 +137,13 @@ public class Game {
             if (this.min == 60) {
                 this.min -= 60;
                 this.hours++;
+            }
+        }
+        // Send Next Drop Timer
+        int secondsUntilDrop = (- (sec + 60 * min + 3600 * hours)) % scenario.getDropInterval();
+        if (secondsUntilDrop <= 15) {
+            for (Player player : players) {
+                player.spigot().sendMessage(ChatMessageType.ACTION_BAR, new TextComponent("Item Drop in " + secondsUntilDrop + " seconds !"));
             }
         }
         // Drop items
