@@ -121,24 +121,27 @@ public class Game {
     private void newGameSecond() {
         Bukkit.getPluginManager().callEvent(new RandomItemChallengeUpdateEvent(this));
         this.sec++;
+        // End Grace Period
+        if (this.hours == 0 &&  this.min == 0 && this.sec == 0) {
+            this.worldManager.endGracePeriod();
+        }
+        // Calculate hours and minutes
         if (this.sec == 60) {
-            if ((sec + 60 * min + 3600 * hours) % scenario.getDropInterval() == 0) { // Drop items every x seconds
-                scenario.giveItems(players);
-            }
             this.sec -= 60;
             this.min++;
             if (this.min == 60) {
                 this.min -= 60;
                 this.hours++;
             }
-            if (this.hours == 0 &&  this.min == 0 && this.sec == 0) { // when grace period is over
-                this.worldManager.endGracePeriod();
-            }
         }
-        // send scoreboard to everybody
+        // Drop items
+        if ((sec + 60 * min + 3600 * hours) % scenario.getDropInterval() == 0) {
+            scenario.giveItems(players);
+        }
         for (Player player: this.players) {
+            // Send scoreboard
             sb.updateScoreboard(player);
-            // update compass
+            // Update compass
             double nearestDistance = Double.POSITIVE_INFINITY;
             Player nearestEnemy = player;
             for (Player enemy: this.players) {
@@ -151,6 +154,7 @@ public class Game {
             }
             Tracker.trackLocation(player, nearestEnemy.getLocation(), text.getItem("compass"));
         }
+        // Send scoreboard to spectators
         for (Player spectator: this.spectators) {
             sb.updateScoreboard(spectator);
         }
@@ -204,6 +208,9 @@ public class Game {
     }
 
     public String getTime() {
+        if (sec < 0) {
+            return "Grace Period";
+        }
         return hours + ":" + (min < 10 ? "0" : "") + min + ":" + (sec < 10 ? "0" : "") + sec;
     }
 

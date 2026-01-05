@@ -111,8 +111,8 @@ public class RandomItemChallengeCommand implements CommandExecutor, TabCompleter
             return true;
         }
         else if (args[0].equalsIgnoreCase("reload")) {
-            sender.sendMessage(ChatColor.DARK_PURPLE + "Sorry, but this is not available at the moment.");
-            // TODO reload cmd
+            sender.sendMessage(ChatColor.GREEN + "Reloading Random Item Challenge.");
+            plugin.reload();
             return true;
         }
         else return false;

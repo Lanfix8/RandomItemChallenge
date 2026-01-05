@@ -41,20 +41,18 @@ public final class RandomItemChallenge extends JavaPlugin {
         assert RICCommand != null;
         RICCommand.setExecutor(new RandomItemChallengeCommand(this, this.game, this.text));
         // Register PlaceholderAPI expansion
-        if(Bukkit.getPluginManager().getPlugin("PlaceholderAPI") != null) {
+        if (Bukkit.getPluginManager().getPlugin("PlaceholderAPI") != null) {
             new RandomItemChallengeExpansion(this.game).register();
         }
     }
 
     private void loadTexts() {
-        saveResource("texts.yml", false);
         File textsFile = new File(this.getDataFolder(), "texts.yml");
         this.text = new Text(YamlConfiguration.loadConfiguration(textsFile));
     }
 
     private void loadGame() {
         // load scoreboard
-        saveResource("scoreboard.yml", false);
         File scoreboardFile = new File(this.getDataFolder(), "scoreboard.yml");
         YamlConfiguration sbConfig = YamlConfiguration.loadConfiguration(scoreboardFile);
         boolean customScoreboard = sbConfig.getBoolean("custom-scoreboard");
@@ -71,6 +69,12 @@ public final class RandomItemChallenge extends JavaPlugin {
         // load game
         this.game = new Game(this, text, sb);
         sb.setGame(game);
+    }
+
+    public void reload() {
+        reloadConfig();
+        loadTexts();
+        loadGame();
     }
 
     @Override
@@ -104,12 +108,14 @@ public final class RandomItemChallenge extends JavaPlugin {
             throw new RuntimeException(e);
         }
         // Save default resources
-        File scenariosFolder = new File(this.getDataFolder(), "scenarios");
-        if (!scenariosFolder.exists()) scenariosFolder.mkdirs();
         saveDefaultResources();
     }
 
     private void saveDefaultResources() {
+        saveResource("scoreboard.yml", false);
+        saveResource("texts.yml", false);
+        File scenariosFolder = new File(this.getDataFolder(), "scenarios");
+        if (!scenariosFolder.exists()) scenariosFolder.mkdirs();
         String jarPath = this.getClass().getProtectionDomain().getCodeSource().getLocation().getPath();
         jarPath = URLDecoder.decode(jarPath, StandardCharsets.UTF_8);
         try (JarFile jar = new JarFile(jarPath)) {
@@ -138,6 +144,7 @@ public final class RandomItemChallenge extends JavaPlugin {
     Game now support drop periods in seconds
     Changed default custom scoreboard
     Fixed typo in texts
+    Reload subcommand
      */
 
 }
