@@ -27,10 +27,10 @@ public class WorldManager {
         world.getWorldBorder().setSize(border);
         world.setTime(0);
         world.setDifficulty(Difficulty.HARD);
-        world.setGameRule(GameRule.SHOW_ADVANCEMENT_MESSAGES, false);
-        world.setGameRule(GameRule.ENTITY_DROPS, false);
-        world.setGameRule(GameRule.MOB_DROPS, false);
-        world.setGameRule(GameRule.BLOCK_DROPS, false);
+        world.setGameRule(GameRules.SHOW_ADVANCEMENT_MESSAGES, false);
+        world.setGameRule(GameRules.ENTITY_DROPS, false);
+        world.setGameRule(GameRules.MOB_DROPS, false);
+        world.setGameRule(GameRules.BLOCK_DROPS, false);
         this.world = world;
         loadNextLocation();
     }
